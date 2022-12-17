@@ -12,6 +12,11 @@ const initialState = {
     errorMessage: "",
 };
 
+const wait = (ms) =>
+    new Promise((resolve) => {
+        setTimeout(() => resolve(), ms);
+    });
+
 export const authSlice = createSlice({
     name: "auth",
     initialState,
@@ -54,6 +59,7 @@ export const register = createAsyncThunk("auth/register", async (user) => {
 
 export const login = createAsyncThunk("auth/login", async (user, thunkAPI) => {
     try {
+        // await wait(0);
         return await authService.login(user);
     } catch (error) {
         console.error(error);

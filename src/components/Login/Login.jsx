@@ -1,11 +1,12 @@
 import { Button, Checkbox, Label, Spinner } from "flowbite-react";
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { login, reset } from "../../features/auth/authSlice";
 import "./Login.scss";
 
 const Login = () => {
+    const navigate = useNavigate();
     const { isError, errorMessage, isSuccess, isLoading } = useSelector(
         (state) => state.auth
     );
@@ -32,8 +33,11 @@ const Login = () => {
     };
     useEffect(() => {
         if (isSuccess) {
+            dispatch(reset());
+            navigate("/");
         }
-    }, [isError, errorMessage, isSuccess]);
+        // eslint-disable-next-line
+    }, [isSuccess]);
 
     return (
         <div
@@ -150,7 +154,12 @@ const Login = () => {
                 <div className="flex items-center justify-between">
                     <span className="dark:text-white">
                         You don't have an account?{" "}
-                        <Link to="/register">Register here. </Link>
+                        <Link
+                            className="text-blue-700 dark:text-blue-500"
+                            to="/register"
+                        >
+                            Register here.{" "}
+                        </Link>
                     </span>
                     <Button
                         className="w-1/4"
