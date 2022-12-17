@@ -1,10 +1,15 @@
 .container-image {
     flex: 1;
     border-right: 1px solid black;
+
+    img {
+        object-fit: cover;
+    }
 }
 
 .container-form {
     flex: 1;
+    min-height: 700px;
 }
 
 .dark {
