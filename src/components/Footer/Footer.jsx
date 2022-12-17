@@ -3,8 +3,8 @@ import React from "react";
 
 const Footer = () => {
     return (
-        <footer class="p-4 bg-white sm:p-6 dark:bg-gray-900 lg:px-48">
-            <div class="md:flex md:justify-between">
+        <footer class="p-4 bg-white sm:p-6 dark:bg-gray-900">
+            <div class="md:flex md:justify-between lg:px-40">
                 <div class="mb-6 md:mb-0">
                     <a href="https://flowbite.com/" class="flex items-center">
                         <img
@@ -84,7 +84,7 @@ const Footer = () => {
                 </div>
             </div>
             <hr class="my-2 border-gray-200 sm:mx-auto dark:border-gray-700 lg:my-4" />
-            <div class="sm:flex sm:items-center sm:justify-between">
+            <div class="sm:flex sm:items-center sm:justify-between lg:px-40">
                 <span class="text-sm text-gray-500 sm:text-center dark:text-gray-400">
                     © 2022{" "}
                     <a href="https://flowbite.com/" class="hover:underline">

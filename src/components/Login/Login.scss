@@ -1,0 +1,16 @@
+.container-image {
+    flex: 1;
+    border-right: 1px solid black;
+}
+
+.container-form {
+    flex: 1;
+}
+
+.dark {
+    .container-image {
+        img {
+            filter: brightness(90%);
+        }
+    }
+}
