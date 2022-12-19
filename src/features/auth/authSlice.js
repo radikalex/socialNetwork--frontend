@@ -12,10 +12,10 @@ const initialState = {
     errorMessage: "",
 };
 
-const wait = (ms) =>
-    new Promise((resolve) => {
-        setTimeout(() => resolve(), ms);
-    });
+// const wait = (ms) =>
+//     new Promise((resolve) => {
+//         setTimeout(() => resolve(), ms);
+//     });
 
 export const authSlice = createSlice({
     name: "auth",
@@ -24,6 +24,7 @@ export const authSlice = createSlice({
         reset: (state) => {
             state.isError = false;
             state.isSuccess = false;
+            state.isLoading = false;
             state.errorMessage = "";
         },
     },
@@ -43,19 +44,36 @@ export const authSlice = createSlice({
                 state.isLoading = false;
                 state.errorMessage = action.payload.error;
             })
+            .addCase(register.fulfilled, (state) => {
+                state.isSuccess = true;
+                state.isError = false;
+                state.isLoading = false;
+            })
+            .addCase(register.pending, (state) => {
+                state.isLoading = true;
+            })
+            .addCase(register.rejected, (state, action) => {
+                state.isError = true;
+                state.isLoading = false;
+                state.errorMessage = action.payload.errors[0].msg;
+            })
             .addCase(logout.fulfilled, (state) => {
                 state.user = null;
             });
     },
 });
 
-export const register = createAsyncThunk("auth/register", async (user) => {
-    try {
-        return await authService.register(user);
-    } catch (error) {
-        console.error(error);
+export const register = createAsyncThunk(
+    "auth/register",
+    async (user, thunkAPI) => {
+        try {
+            return await authService.register(user);
+        } catch (error) {
+            console.error(error);
+            return thunkAPI.rejectWithValue(error.response.data);
+        }
     }
-});
+);
 
 export const login = createAsyncThunk("auth/login", async (user, thunkAPI) => {
     try {

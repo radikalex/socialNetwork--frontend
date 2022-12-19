@@ -30,6 +30,7 @@ const FormLogin = () => {
         e.preventDefault();
         dispatch(login(data));
     };
+
     useEffect(() => {
         if (isSuccess) {
             dispatch(reset());
@@ -37,6 +38,11 @@ const FormLogin = () => {
         }
         // eslint-disable-next-line
     }, [isSuccess]);
+
+    useEffect(() => {
+        dispatch(reset());
+        // eslint-disable-next-line
+    }, []);
 
     return (
         <div className="flex justify-center w-full bg-white dark:bg-slate-800">
@@ -62,7 +68,6 @@ const FormLogin = () => {
                         onChange={onChange}
                         placeholder="Introduce your email..."
                         className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                        required={true}
                     />
                 </div>
                 <div>
@@ -120,7 +125,6 @@ const FormLogin = () => {
                             value={password}
                             onChange={onChange}
                             className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                            required={true}
                         />
                     </div>
                 </div>
@@ -155,18 +159,9 @@ const FormLogin = () => {
                     </div>
                 ) : null}
 
-                <div className="flex items-center justify-between">
-                    <span className="dark:text-white">
-                        You don't have an account?{" "}
-                        <Link
-                            className="text-blue-700 dark:text-blue-500"
-                            to="/register"
-                        >
-                            Register here.{" "}
-                        </Link>
-                    </span>
+                <div className="flex items-center justify-center">
                     <Button
-                        className="w-1/4"
+                        className="w-1/3"
                         type="submit"
                         disabled={isLoading ? true : false}
                     >
@@ -178,6 +173,17 @@ const FormLogin = () => {
                             <span>Log in</span>
                         </span>
                     </Button>
+                </div>
+                <div className="flex justify-center">
+                    <span className="dark:text-white">
+                        You don't have an account?{" "}
+                        <Link
+                            className="text-blue-700 dark:text-blue-500"
+                            to="/register"
+                        >
+                            Register here.{" "}
+                        </Link>
+                    </span>
                 </div>
             </form>
         </div>
