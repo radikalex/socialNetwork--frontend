@@ -1,0 +1,19 @@
+.sidebar {
+    width: 16rem;
+    transition: width 0.5s ease;
+
+    svg {
+        min-width: 24px;
+        min-height: 24px;
+    }
+}
+
+.closed {
+    width: 50px;
+    transition: width 0.5s ease;
+
+    li {
+        display: flex;
+        justify-content: center;
+    }
+}
