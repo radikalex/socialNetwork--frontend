@@ -1,15 +1,24 @@
 /* eslint-disable jsx-a11y/anchor-is-valid */
 import React, { useRef, useState } from "react";
-import { BiLogOutCircle } from "react-icons/bi";
-import { HiBell } from "react-icons/hi";
+import { BiLogInCircle, BiLogOutCircle } from "react-icons/bi";
+import { HiBell, HiTable } from "react-icons/hi";
 import { HiEnvelope, HiUser } from "react-icons/hi2";
-import { IoHomeSharp, IoSearchSharp, IoSettingsSharp } from "react-icons/io5";
-import { useLocation } from "react-router-dom";
+import {
+    IoHomeSharp,
+    IoMenu,
+    IoSearchSharp,
+    IoSettingsSharp,
+} from "react-icons/io5";
+import { useDispatch, useSelector } from "react-redux";
+import { Link, useLocation } from "react-router-dom";
+import { logout } from "../../features/auth/authSlice";
 import "./Header.scss";
 
 const Header = () => {
     const { pathname } = useLocation();
+    const { token } = useSelector((state) => state.auth);
     const [open, setOpen] = useState(true);
+    const dispatch = useDispatch();
     const sidebar = useRef();
 
     const collapseSidebarHandler = () => {
@@ -21,7 +30,7 @@ const Header = () => {
         }
     };
 
-    if (pathname === "/login" || pathname === "/register") return;
+    // if (pathname === "/login" || pathname === "/register") return;
     return (
         <aside
             className="fixed z-10 sidebar"
@@ -33,6 +42,20 @@ const Header = () => {
                     "overflow-y-auto py-4 px-3 h-screen bg-gray-50 rounded dark:bg-gray-800"
                 }
             >
+                <div
+                    className={
+                        open
+                            ? "flex justify-end mt-2 px-4"
+                            : "flex justify-center mt-2"
+                    }
+                >
+                    <span
+                        className="cursor-pointer text-gray-900 dark:text-white flex items-center justify-center rounded-lg p-2 dark:hover:bg-gray-700 hover:bg-gray-200"
+                        onClick={collapseSidebarHandler}
+                    >
+                        <IoMenu />
+                    </span>
+                </div>
                 <a
                     href="https://flowbite.com/"
                     className="flex items-center mb-5 mt-10 justify-center gap-3"
@@ -48,11 +71,11 @@ const Header = () => {
                         </span>
                     ) : null}
                 </a>
-                <ul className="flex flex-col gap-4 justify-center">
+                <ul className="flex flex-col gap-4 justify-center mt-10">
                     <li>
-                        <a
-                            href="#"
-                            className="flex items-center p-2 text-base font-normal text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700"
+                        <Link
+                            to="/"
+                            className="flex items-center p-2 text-base font-normal text-gray-900 rounded-lg dark:text-white hover:bg-gray-200 dark:hover:bg-gray-700"
                         >
                             <IoHomeSharp />
                             {open ? (
@@ -60,12 +83,12 @@ const Header = () => {
                                     Home
                                 </span>
                             ) : null}
-                        </a>
+                        </Link>
                     </li>
                     <li>
-                        <a
-                            href="#"
-                            className="flex items-center p-2 text-base font-normal text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700"
+                        <Link
+                            to="/explore"
+                            className="flex items-center p-2 text-base font-normal text-gray-900 rounded-lg dark:text-white hover:bg-gray-200 dark:hover:bg-gray-700"
                         >
                             <IoSearchSharp />
                             {open ? (
@@ -73,69 +96,62 @@ const Header = () => {
                                     Explore
                                 </span>
                             ) : null}
-                        </a>
+                        </Link>
                     </li>
-                    <li>
-                        <a
-                            href="#"
-                            className="flex items-center p-2 text-base font-normal text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700"
-                        >
-                            <HiBell />
-                            {open ? (
-                                <>
+                    {token ? (
+                        <li>
+                            <Link
+                                to="/notifications"
+                                className="flex items-center p-2 text-base font-normal text-gray-900 rounded-lg dark:text-white hover:bg-gray-200 dark:hover:bg-gray-700"
+                            >
+                                <HiBell />
+                                {open ? (
+                                    <>
+                                        <span className="flex-1 ml-3 whitespace-nowrap">
+                                            Notifications
+                                        </span>
+                                        <span className="inline-flex justify-center items-center p-3 ml-3 w-3 h-3 text-sm font-medium text-blue-600 bg-blue-200 rounded-full dark:bg-blue-900 dark:text-blue-200">
+                                            3
+                                        </span>
+                                    </>
+                                ) : null}
+                            </Link>
+                        </li>
+                    ) : null}
+                    {token ? (
+                        <li>
+                            <Link
+                                to="/messages"
+                                className="flex items-center p-2 text-base font-normal text-gray-900 rounded-lg dark:text-white hover:bg-gray-200 dark:hover:bg-gray-700"
+                            >
+                                <HiEnvelope />
+                                {open ? (
                                     <span className="flex-1 ml-3 whitespace-nowrap">
-                                        Notifications
+                                        Messages
                                     </span>
-                                    <span className="inline-flex justify-center items-center p-3 ml-3 w-3 h-3 text-sm font-medium text-blue-600 bg-blue-200 rounded-full dark:bg-blue-900 dark:text-blue-200">
-                                        3
+                                ) : null}
+                            </Link>
+                        </li>
+                    ) : null}
+                    {token ? (
+                        <li>
+                            <Link
+                                to="/profile"
+                                className="flex items-center p-2 text-base font-normal text-gray-900 rounded-lg dark:text-white hover:bg-gray-200 dark:hover:bg-gray-700"
+                            >
+                                <HiUser />
+                                {open ? (
+                                    <span className="flex-1 ml-3 whitespace-nowrap">
+                                        Profile
                                     </span>
-                                </>
-                            ) : null}
-                        </a>
-                    </li>
+                                ) : null}
+                            </Link>
+                        </li>
+                    ) : null}
                     <li>
-                        <a
-                            href="#"
-                            className="flex items-center p-2 text-base font-normal text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700"
-                        >
-                            <HiEnvelope />
-                            {open ? (
-                                <span className="flex-1 ml-3 whitespace-nowrap">
-                                    Messages
-                                </span>
-                            ) : null}
-                        </a>
-                    </li>
-                    <li>
-                        <a
-                            href="#"
-                            className="flex items-center p-2 text-base font-normal text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700"
-                        >
-                            <HiUser />
-                            {open ? (
-                                <span className="flex-1 ml-3 whitespace-nowrap">
-                                    Profile
-                                </span>
-                            ) : null}
-                        </a>
-                    </li>
-                    <li>
-                        <a
-                            href="#"
-                            className="flex items-center p-2 text-base font-normal text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700"
-                        >
-                            <BiLogOutCircle />
-                            {open ? (
-                                <span className="flex-1 ml-3 whitespace-nowrap">
-                                    Log out
-                                </span>
-                            ) : null}
-                        </a>
-                    </li>
-                    <li>
-                        <a
-                            href="#"
-                            className="flex items-center p-2 text-base font-normal text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700"
+                        <Link
+                            to="/settings"
+                            className="flex items-center p-2 text-base font-normal text-gray-900 rounded-lg dark:text-white hover:bg-gray-200 dark:hover:bg-gray-700"
                         >
                             <IoSettingsSharp />
                             {open ? (
@@ -143,16 +159,53 @@ const Header = () => {
                                     Settings
                                 </span>
                             ) : null}
-                        </a>
+                        </Link>
                     </li>
-                    <li className="flex justify-center">
-                        <button
-                            className="bg-white p-2 rounded-lg"
-                            onClick={collapseSidebarHandler}
-                        >
-                            Hide
-                        </button>
-                    </li>
+                    {token ? (
+                        <li>
+                            <span className="flex items-center p-2 text-base font-normal text-gray-900 rounded-lg dark:text-white hover:bg-gray-200 dark:hover:bg-gray-700 cursor-pointer">
+                                <BiLogOutCircle />
+                                {open ? (
+                                    <span
+                                        className="flex-1 ml-3 whitespace-nowrap"
+                                        onClick={() => dispatch(logout())}
+                                    >
+                                        Log out
+                                    </span>
+                                ) : null}
+                            </span>
+                        </li>
+                    ) : null}
+                    {!token ? (
+                        <li>
+                            <Link
+                                to="/login"
+                                className="flex items-center p-2 text-base font-normal text-gray-900 rounded-lg dark:text-white hover:bg-gray-200 dark:hover:bg-gray-700"
+                            >
+                                <BiLogInCircle />
+                                {open ? (
+                                    <span className="flex-1 ml-3 whitespace-nowrap">
+                                        Log in
+                                    </span>
+                                ) : null}
+                            </Link>
+                        </li>
+                    ) : null}
+                    {!token ? (
+                        <li>
+                            <Link
+                                to="/register"
+                                className="flex items-center p-2 text-base font-normal text-gray-900 rounded-lg dark:text-white hover:bg-gray-200 dark:hover:bg-gray-700"
+                            >
+                                <HiTable />
+                                {open ? (
+                                    <span className="flex-1 ml-3 whitespace-nowrap">
+                                        Log in
+                                    </span>
+                                ) : null}
+                            </Link>
+                        </li>
+                    ) : null}
                 </ul>
             </div>
         </aside>

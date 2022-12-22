@@ -59,6 +59,7 @@ export const authSlice = createSlice({
             })
             .addCase(logout.fulfilled, (state) => {
                 state.user = null;
+                state.token = null;
             });
     },
 });
@@ -85,11 +86,12 @@ export const login = createAsyncThunk("auth/login", async (user, thunkAPI) => {
     }
 });
 
-export const logout = createAsyncThunk("auth/logoutUser", async () => {
+export const logout = createAsyncThunk("auth/logout", async (thunkAPI) => {
     try {
         return await authService.logout();
     } catch (error) {
         console.error(error);
+        return thunkAPI.rejectWithValue(error.response.data);
     }
 });
 
