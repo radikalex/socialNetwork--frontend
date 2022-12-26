@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable jsx-a11y/anchor-is-valid */
 import React, { useEffect, useRef, useState } from "react";
 import { BiLogInCircle, BiLogOutCircle } from "react-icons/bi";
@@ -10,12 +11,11 @@ import {
     IoSettingsSharp,
 } from "react-icons/io5";
 import { useDispatch, useSelector } from "react-redux";
-import { Link, useLocation } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { getLoggedUser, logout } from "../../features/auth/authSlice";
 import "./Header.scss";
 
 const Header = () => {
-    const { pathname } = useLocation();
     const { token, user } = useSelector((state) => state.auth);
     const [open, setOpen] = useState(true);
     const dispatch = useDispatch();
@@ -31,9 +31,7 @@ const Header = () => {
     };
 
     useEffect(() => {
-        console.log("Entra");
         if (token) dispatch(getLoggedUser());
-        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [token]);
 
     // if (pathname === "/login" || pathname === "/register") return;
