@@ -1,5 +1,5 @@
 /* eslint-disable jsx-a11y/anchor-is-valid */
-import React, { useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { BiLogInCircle, BiLogOutCircle } from "react-icons/bi";
 import { HiBell, HiTable } from "react-icons/hi";
 import { HiEnvelope, HiUser } from "react-icons/hi2";
@@ -11,12 +11,12 @@ import {
 } from "react-icons/io5";
 import { useDispatch, useSelector } from "react-redux";
 import { Link, useLocation } from "react-router-dom";
-import { logout } from "../../features/auth/authSlice";
+import { getLoggedUser, logout } from "../../features/auth/authSlice";
 import "./Header.scss";
 
 const Header = () => {
     const { pathname } = useLocation();
-    const { token } = useSelector((state) => state.auth);
+    const { token, user } = useSelector((state) => state.auth);
     const [open, setOpen] = useState(true);
     const dispatch = useDispatch();
     const sidebar = useRef();
@@ -29,6 +29,12 @@ const Header = () => {
             sidebar.current.classList.remove("closed");
         }
     };
+
+    useEffect(() => {
+        console.log("Entra");
+        if (token) dispatch(getLoggedUser());
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [token]);
 
     // if (pathname === "/login" || pathname === "/register") return;
     return (
@@ -200,13 +206,23 @@ const Header = () => {
                                 <HiTable />
                                 {open ? (
                                     <span className="flex-1 ml-3 whitespace-nowrap">
-                                        Log in
+                                        Register
                                     </span>
                                 ) : null}
                             </Link>
                         </li>
                     ) : null}
                 </ul>
+                {user ? (
+                    <div className="mt-4 flex flex-col">
+                        <span className=" text-gray-900 dark:text-white">
+                            {user.firstName + " " + user.lastName}
+                        </span>
+                        <span className=" text-gray-900 dark:text-gray-400">
+                            @{user.username}
+                        </span>
+                    </div>
+                ) : null}
             </div>
         </aside>
     );

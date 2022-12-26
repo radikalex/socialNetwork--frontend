@@ -15,9 +15,19 @@ const login = async (userData) => {
     return res.data;
 };
 
+const getLoggedUser = async () => {
+    const token = JSON.parse(localStorage.getItem("token"));
+
+    const res = await axios.get(API_URL + "/users/getLoggedUser", {
+        headers: { authorization: token },
+    });
+
+    return res.data;
+};
+
 const logout = async () => {
     const token = JSON.parse(localStorage.getItem("token"));
-    console.log(token);
+
     const res = await axios.post(
         API_URL + "/users/logout",
         {},
@@ -26,7 +36,7 @@ const logout = async () => {
         }
     );
     if (res.data) {
-        localStorage.removeItem("user");
+        localStorage.removeItem("token");
     }
     return res.data;
 };
@@ -35,6 +45,7 @@ const authService = {
     register,
     login,
     logout,
+    getLoggedUser,
 };
 
 export default authService;
