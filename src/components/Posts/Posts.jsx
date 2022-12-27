@@ -12,7 +12,6 @@ const Posts = () => {
     useEffect(() => {
         dispatch(reset());
     });
-
     useEffect(() => {
         if (token) {
             dispatch(getPosts(page));
@@ -22,7 +21,7 @@ const Posts = () => {
     }, [token]);
     return (
         <div className="flex-1 flex justify-center">
-            <div className="w-3/5 flex flex-col items-center border-x dark:border-slate-500">
+            <div className="w-3/5 flex flex-col items-center">
                 <h1 className="text-gray-900 dark:text-white mt-4 text-3xl">
                     Home
                 </h1>

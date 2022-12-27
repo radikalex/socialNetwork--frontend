@@ -23,9 +23,39 @@ const getAllPosts = async (page) => {
     return res.data;
 };
 
+const likePost = async (_id) => {
+    const token = JSON.parse(localStorage.getItem("token"));
+
+    const res = await axios.put(
+        API_URL + `/posts/giveLike/${_id}`,
+        {},
+        {
+            headers: { authorization: token },
+        }
+    );
+
+    return res.data;
+};
+
+const removeLikePost = async (_id) => {
+    const token = JSON.parse(localStorage.getItem("token"));
+
+    const res = await axios.put(
+        API_URL + `/posts/removeLike/${_id}`,
+        {},
+        {
+            headers: { authorization: token },
+        }
+    );
+
+    return res.data;
+};
+
 const postsService = {
     getPosts,
     getAllPosts,
+    likePost,
+    removeLikePost,
 };
 
 export default postsService;

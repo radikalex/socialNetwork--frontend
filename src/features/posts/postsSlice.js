@@ -37,9 +37,44 @@ export const postsSlice = createSlice({
             .addCase(getAllPosts.fulfilled, (state, action) => {
                 state.isLoading = false;
                 state.posts = [...state.posts, ...action.payload.posts];
+            })
+            .addCase(likePost.fulfilled, (state, action) => {
+                state.posts = state.posts.map((post) => {
+                    if (post._id === action.payload.post._id) {
+                        post = action.payload.post;
+                    }
+                    return post;
+                });
+            })
+            .addCase(removeLikePost.fulfilled, (state, action) => {
+                state.posts = state.posts.map((post) => {
+                    if (post._id === action.payload.post._id) {
+                        post = action.payload.post;
+                    }
+                    return post;
+                });
             });
     },
 });
+
+export const likePost = createAsyncThunk("posts/likePost", async (_id) => {
+    try {
+        return await postsService.likePost(_id);
+    } catch (error) {
+        console.error(error);
+    }
+});
+
+export const removeLikePost = createAsyncThunk(
+    "posts/removeLikePost",
+    async (_id) => {
+        try {
+            return await postsService.removeLikePost(_id);
+        } catch (error) {
+            console.error(error);
+        }
+    }
+);
 
 export const getPosts = createAsyncThunk("posts/getPosts", async (page) => {
     try {
