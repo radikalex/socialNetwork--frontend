@@ -43,7 +43,7 @@ const Header = () => {
         >
             <div
                 className={
-                    "overflow-y-auto py-4 px-3 h-screen bg-gray-50 rounded dark:bg-gray-800"
+                    "overflow-y-auto py-4 px-3 h-screen bg-gray-50 rounded dark:bg-gray-800 flex flex-col"
                 }
             >
                 <div
@@ -212,13 +212,32 @@ const Header = () => {
                     ) : null}
                 </ul>
                 {user ? (
-                    <div className="mt-4 flex flex-col">
-                        <span className=" text-gray-900 dark:text-white">
-                            {user.firstName + " " + user.lastName}
-                        </span>
-                        <span className=" text-gray-900 dark:text-gray-400">
-                            @{user.username}
-                        </span>
+                    <div className="flex flex-col-reverse items-center flex-1 overflow-x-hidden">
+                        <div className="flex gap-2 py-5">
+                            <div className="flex flex-col justify-center">
+                                <img
+                                    className={
+                                        open
+                                            ? "w-10 h-10 rounded-full"
+                                            : "w-6 h-6 rounded-full"
+                                    }
+                                    src={
+                                        "http://localhost:8080/" + user.user_img
+                                    }
+                                    alt="Profile pic"
+                                />
+                            </div>
+                            {open ? (
+                                <div className="flex flex-col">
+                                    <span className=" text-gray-900 dark:text-white font-bold">
+                                        {user.firstName + " " + user.lastName}
+                                    </span>
+                                    <span className=" text-gray-900 dark:text-gray-400">
+                                        @{user.username}
+                                    </span>
+                                </div>
+                            ) : null}
+                        </div>
                     </div>
                 ) : null}
             </div>
