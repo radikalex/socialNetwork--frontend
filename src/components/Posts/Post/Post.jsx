@@ -81,7 +81,7 @@ const Post = () => {
                             @{post.userId.username}
                         </span>
                         <div className="flex flex-row-reverse items-center flex-1 gap-4">
-                            <span className=" text-gray-900 dark:text-gray-300 dark:hover:bg-gray-700 hover:bg-gray-200 h-full flex items-center px-2 rounded-md cursor-pointer">
+                            <span className=" text-gray-900 dark:text-gray-300 dark:hover:bg-gray-700 hover:bg-gray-200 h-full flex items-center pl-4 rounded-md cursor-pointer">
                                 <FaEllipsisH />
                             </span>
                             <span className=" text-gray-900 dark:text-gray-400">
