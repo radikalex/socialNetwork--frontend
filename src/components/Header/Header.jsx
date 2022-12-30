@@ -5,6 +5,7 @@ import { BiLogInCircle, BiLogOutCircle } from "react-icons/bi";
 import { HiBell, HiTable } from "react-icons/hi";
 import { HiEnvelope, HiUser } from "react-icons/hi2";
 import {
+    IoAddCircleOutline,
     IoHomeSharp,
     IoMenu,
     IoSearchSharp,
@@ -13,6 +14,7 @@ import {
 import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import { getLoggedUser, logout } from "../../features/auth/authSlice";
+import { openModalAddPost } from "../../features/posts/postsSlice";
 import "./Header.scss";
 
 const Header = () => {
@@ -152,19 +154,23 @@ const Header = () => {
                             </Link>
                         </li>
                     ) : null}
-                    <li>
-                        <Link
-                            to="/settings"
-                            className="flex items-center p-2 text-base font-normal text-gray-900 rounded-lg dark:text-white hover:bg-gray-200 dark:hover:bg-gray-700"
-                        >
-                            <IoSettingsSharp />
-                            {open ? (
-                                <span className="flex-1 ml-3 whitespace-nowrap">
-                                    Settings
-                                </span>
-                            ) : null}
-                        </Link>
-                    </li>
+                    {token ? (
+                        <li>
+                            <span className="flex items-center p-2 text-base font-normal text-gray-900 rounded-lg dark:text-white hover:bg-gray-200 dark:hover:bg-gray-700 cursor-pointer">
+                                <IoAddCircleOutline />
+                                {open ? (
+                                    <span
+                                        className="flex-1 ml-3 whitespace-nowrap"
+                                        onClick={() =>
+                                            dispatch(openModalAddPost())
+                                        }
+                                    >
+                                        Add a new post
+                                    </span>
+                                ) : null}
+                            </span>
+                        </li>
+                    ) : null}
                     {token ? (
                         <li>
                             <span className="flex items-center p-2 text-base font-normal text-gray-900 rounded-lg dark:text-white hover:bg-gray-200 dark:hover:bg-gray-700 cursor-pointer">
@@ -210,6 +216,19 @@ const Header = () => {
                             </Link>
                         </li>
                     ) : null}
+                    <li>
+                        <Link
+                            to="/settings"
+                            className="flex items-center p-2 text-base font-normal text-gray-900 rounded-lg dark:text-white hover:bg-gray-200 dark:hover:bg-gray-700"
+                        >
+                            <IoSettingsSharp />
+                            {open ? (
+                                <span className="flex-1 ml-3 whitespace-nowrap">
+                                    Settings
+                                </span>
+                            ) : null}
+                        </Link>
+                    </li>
                 </ul>
                 {user ? (
                     <div className="flex flex-col-reverse items-center flex-1 overflow-x-hidden">
@@ -228,8 +247,8 @@ const Header = () => {
                                 />
                             </div>
                             {open ? (
-                                <div className="flex flex-col">
-                                    <span className=" text-gray-900 dark:text-white font-bold">
+                                <div className="flex flex-col whitespace-nowrap overflow-hidden">
+                                    <span className=" text-gray-900 dark:text-white font-bold ">
                                         {user.firstName + " " + user.lastName}
                                     </span>
                                     <span className=" text-gray-900 dark:text-gray-400">

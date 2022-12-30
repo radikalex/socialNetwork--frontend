@@ -8,6 +8,7 @@ const initialState = {
     isSuccess: false,
     isLoading: false,
     errorMessage: "",
+    showModalAddPost: false,
 };
 
 // const wait = (ms) =>
@@ -19,6 +20,12 @@ export const postsSlice = createSlice({
     name: "posts",
     initialState,
     reducers: {
+        closeModalAddPost: (state) => {
+            state.showModalAddPost = false;
+        },
+        openModalAddPost: (state) => {
+            state.showModalAddPost = true;
+        },
         reset: (state) => {
             state.isError = false;
             state.isSuccess = false;
@@ -38,6 +45,9 @@ export const postsSlice = createSlice({
                 state.isLoading = false;
                 state.posts = [...state.posts, ...action.payload.posts];
             })
+            .addCase(createPost.fulfilled, (state, action) => {
+                state.posts = [action.payload.post, ...state.posts];
+            })
             .addCase(likePost.fulfilled, (state, action) => {
                 state.posts = state.posts.map((post) => {
                     if (post._id === action.payload.post._id) {
@@ -55,6 +65,14 @@ export const postsSlice = createSlice({
                 });
             });
     },
+});
+
+export const createPost = createAsyncThunk("posts/createPost", async (data) => {
+    try {
+        return await postsService.createPost(data);
+    } catch (error) {
+        console.error(error);
+    }
 });
 
 export const likePost = createAsyncThunk("posts/likePost", async (_id) => {
@@ -95,6 +113,7 @@ export const getAllPosts = createAsyncThunk(
     }
 );
 
-export const { reset } = postsSlice.actions;
+export const { reset, closeModalAddPost, openModalAddPost } =
+    postsSlice.actions;
 
 export default postsSlice.reducer;

@@ -6,12 +6,14 @@ import Post from "./Post/Post";
 
 const Posts = () => {
     const dispatch = useDispatch();
+    // const { showModalAddPost } = useSelector((state) => state.posts);
     const { token } = useSelector((state) => state.auth);
     const [page, setPage] = useState(1);
 
     useEffect(() => {
         dispatch(reset());
-    });
+    }, []);
+
     useEffect(() => {
         if (token) {
             dispatch(getPosts(page));

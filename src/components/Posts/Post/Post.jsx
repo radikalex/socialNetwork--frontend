@@ -22,6 +22,8 @@ const Post = () => {
         const timeElapsed = (actualDate.getTime() - postDate.getTime()) / 1000;
 
         switch (true) {
+            case timeElapsed < 1:
+                return `A moment ago`;
             case timeElapsed < 60: // Seconds
                 return `${Math.floor(timeElapsed)} ${
                     Math.floor(timeElapsed) === 1 ? "second" : "seconds"
@@ -88,11 +90,11 @@ const Post = () => {
                         </div>
                     </div>
                     <div>
-                        <span className="text-gray-900 dark:text-white">
+                        <span className="text-gray-900 dark:text-white whitespace-pre-wrap">
                             {post.content}
                         </span>
                     </div>
-                    {post.post_img === "" ? null : (
+                    {!post.post_img || post.post_img === "" ? null : (
                         <div className="w-full flex justify-center">
                             <img
                                 className="w-full rounded"

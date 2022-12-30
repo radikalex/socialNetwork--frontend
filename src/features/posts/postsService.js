@@ -2,6 +2,21 @@ import axios from "axios";
 
 const API_URL = "http://localhost:8080";
 
+const createPost = async (data) => {
+    const token = JSON.parse(localStorage.getItem("token"));
+
+    const formData = new FormData();
+    formData.append("content", data.content);
+    formData.append("date", new Date());
+    if (data.image) formData.append("post_img", data.image);
+
+    const res = await axios.post(API_URL + `/posts/`, formData, {
+        headers: { authorization: token },
+    });
+
+    return res.data;
+};
+
 const getPosts = async (page) => {
     const token = JSON.parse(localStorage.getItem("token"));
 
@@ -56,6 +71,7 @@ const postsService = {
     getAllPosts,
     likePost,
     removeLikePost,
+    createPost,
 };
 
 export default postsService;
