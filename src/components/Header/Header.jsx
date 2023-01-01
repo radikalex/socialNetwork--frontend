@@ -43,7 +43,6 @@ const Header = () => {
         if (token) dispatch(getLoggedUser());
     }, [token]);
 
-    // if (pathname === "/login" || pathname === "/register") return;
     return (
         <>
             <ModalLogout
@@ -168,15 +167,13 @@ const Header = () => {
                         ) : null}
                         {token ? (
                             <li>
-                                <span className="flex items-center p-2 text-base font-normal text-gray-900 rounded-lg dark:text-white hover:bg-gray-200 dark:hover:bg-gray-700 cursor-pointer">
+                                <span
+                                    className="flex items-center p-2 text-base font-normal text-gray-900 rounded-lg dark:text-white hover:bg-gray-200 dark:hover:bg-gray-700 cursor-pointer"
+                                    onClick={() => dispatch(openModalAddPost())}
+                                >
                                     <IoAddCircleOutline />
                                     {open ? (
-                                        <span
-                                            className="flex-1 ml-3 whitespace-nowrap"
-                                            onClick={() =>
-                                                dispatch(openModalAddPost())
-                                            }
-                                        >
+                                        <span className="flex-1 ml-3 whitespace-nowrap">
                                             Add a new post
                                         </span>
                                     ) : null}
@@ -185,16 +182,15 @@ const Header = () => {
                         ) : null}
                         {token ? (
                             <li>
-                                <span className="flex items-center p-2 text-base font-normal text-gray-900 rounded-lg dark:text-white hover:bg-gray-200 dark:hover:bg-gray-700 cursor-pointer">
+                                <span
+                                    className="flex items-center p-2 text-base font-normal text-gray-900 rounded-lg dark:text-white hover:bg-gray-200 dark:hover:bg-gray-700 cursor-pointer"
+                                    onClick={() => {
+                                        setShowModalLogout(true);
+                                    }}
+                                >
                                     <BiLogOutCircle />
                                     {open ? (
-                                        <span
-                                            className="flex-1 ml-3 whitespace-nowrap"
-                                            data-modal-toggle="popup-modal"
-                                            onClick={() =>
-                                                setShowModalLogout(true)
-                                            }
-                                        >
+                                        <span className="flex-1 ml-3 whitespace-nowrap">
                                             Log out
                                         </span>
                                     ) : null}

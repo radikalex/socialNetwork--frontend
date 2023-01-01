@@ -1,18 +1,28 @@
+import EmojiPicker from "emoji-picker-react";
 import React, { useState } from "react";
 import { BsEmojiSmileFill } from "react-icons/bs";
 import { HiOutlineLink } from "react-icons/hi2";
 import { IoClose, IoImage } from "react-icons/io5";
 import { useDispatch, useSelector } from "react-redux";
 import { closeModalAddPost, createPost } from "../../features/posts/postsSlice";
+import "./AddPost.scss";
 
 const AddPost = () => {
     const { showModalAddPost } = useSelector((state) => state.posts);
     const [content, setContent] = useState("");
+    const [showEmojiPicker, setShowEmojiPicker] = useState(false);
     const dispatch = useDispatch();
 
     const handleClose = () => {
         setContent("");
+        setShowEmojiPicker(false);
         dispatch(closeModalAddPost());
+    };
+
+    const addEmoji = (emojiObject) => {
+        console.log(emojiObject);
+        setContent(content + emojiObject.emoji);
+        setShowEmojiPicker(false);
     };
 
     const handlePublishPost = () => {
@@ -32,12 +42,15 @@ const AddPost = () => {
         <div
             id="modal-overlay"
             className="fixed w-full h-full bg-black bg-opacity-50 z-20 flex justify-center items-center"
-            onClick={handleClose}
+            onMouseDown={handleClose}
         >
             <div
                 id="modal-container"
-                className="relative bg-white rounded-lg shadow dark:bg-gray-700 max-w-3xl w-2/3"
-                onClick={(e) => e.stopPropagation()}
+                className="relative bg-white rounded-lg shadow dark:bg-gray-700 max-w-3xl w-2/3 overflow-y-auto max-h-full"
+                onMouseDown={(e) => {
+                    e.stopPropagation();
+                }}
+                onClick={() => setShowEmojiPicker(false)}
             >
                 <form>
                     <div
@@ -56,7 +69,10 @@ const AddPost = () => {
                         <div className="w-full border border-gray-200 rounded-lg bg-gray-50 dark:bg-gray-700 dark:border-gray-600">
                             <div className="flex items-center justify-between px-3 py-2 border-b dark:border-gray-600">
                                 <div className="flex flex-wrap items-center divide-gray-200 sm:divide-x dark:divide-gray-600">
-                                    <div className="flex items-center space-x-1 sm:pr-4">
+                                    <div
+                                        className="flex items-center space-x-1 relative sm:pr-4"
+                                        onClick={(e) => e.stopPropagation()}
+                                    >
                                         <button
                                             type="button"
                                             className="p-2 text-gray-500 rounded cursor-pointer hover:text-gray-900 hover:bg-gray-100 dark:text-gray-400 dark:hover:text-white dark:hover:bg-gray-600"
@@ -72,6 +88,11 @@ const AddPost = () => {
                                         <button
                                             type="button"
                                             className="p-2 text-gray-500 rounded cursor-pointer hover:text-gray-900 hover:bg-gray-100 dark:text-gray-400 dark:hover:text-white dark:hover:bg-gray-600"
+                                            onClick={() =>
+                                                setShowEmojiPicker(
+                                                    !showEmojiPicker
+                                                )
+                                            }
                                         >
                                             <BsEmojiSmileFill />
                                         </button>
@@ -88,6 +109,14 @@ const AddPost = () => {
                                     onChange={(e) => setContent(e.target.value)}
                                     required
                                 ></textarea>
+                                {showEmojiPicker && (
+                                    <EmojiPicker
+                                        onEmojiClick={addEmoji}
+                                        theme="dark"
+                                        height="400px"
+                                        emojiStyle="native"
+                                    />
+                                )}
                             </div>
                         </div>
                     </div>
@@ -104,7 +133,7 @@ const AddPost = () => {
                         </button>
                         <button
                             type="button"
-                            className="text-white bg-gradient-to-r from-teal-400 via-teal-500 to-teal-600 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-teal-300 dark:focus:ring-teal-800 shadow-lg shadow-teal-500/50 dark:shadow-lg dark:shadow-teal-800/80 font-medium rounded-lg text-sm px-5 py-2.5 text-center mr-2 mb-2"
+                            className="text-white bg-gradient-to-r from-slate-400 via-slate-500 to-slate-600 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-slate-300 dark:focus:ring-slate-800 shadow-lg shadow-slate-500/50 dark:shadow-lg dark:shadow-slate-800/80 font-medium rounded-lg text-sm px-5 py-2.5 text-center mr-2 mb-2"
                             onClick={handleClose}
                         >
                             Decline
