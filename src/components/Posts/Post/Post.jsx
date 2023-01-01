@@ -4,6 +4,7 @@ import { HiEnvelope, HiOutlineShare } from "react-icons/hi2";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { likePost, removeLikePost } from "../../../features/posts/postsSlice";
+import "./Post.scss";
 
 const Post = () => {
     const { posts } = useSelector((state) => state.posts);
@@ -97,7 +98,7 @@ const Post = () => {
                     {!post.post_img || post.post_img === "" ? null : (
                         <div className="w-full flex justify-center">
                             <img
-                                className="w-full rounded"
+                                className="w-auto h-auto rounded max-w-full max-h img-post"
                                 src={"http://localhost:8080/" + post.post_img}
                                 alt="Post_img"
                             />

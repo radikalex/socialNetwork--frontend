@@ -17,11 +17,11 @@ const createPost = async (data) => {
     return res.data;
 };
 
-const getPosts = async (page) => {
+const getPosts = async (data) => {
     const token = JSON.parse(localStorage.getItem("token"));
 
     const res = await axios.get(
-        API_URL + `/posts/getPosts?page=${page}&limit=5`,
+        API_URL + `/posts/getPosts?page=${data.page}&limit=5&date=${data.date}`,
         {
             headers: { authorization: token },
         }
@@ -30,9 +30,10 @@ const getPosts = async (page) => {
     return res.data;
 };
 
-const getAllPosts = async (page) => {
+const getAllPosts = async (data) => {
     const res = await axios.get(
-        API_URL + `/posts/getAllPosts?page=${page}&limit=5`
+        API_URL +
+            `/posts/getAllPosts?page=${data.page}&limit=5&date=${data.date}`
     );
 
     return res.data;

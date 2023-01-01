@@ -3,6 +3,8 @@ import postsService from "./postsService";
 
 const initialState = {
     posts: [],
+    date: new Date().toISOString(),
+    page: 1,
     post: null,
     isError: false,
     isSuccess: false,
@@ -32,6 +34,7 @@ export const postsSlice = createSlice({
             state.isLoading = false;
             state.errorMessage = "";
             state.posts = [];
+            state.page = 1;
             state.post = null;
         },
     },
@@ -40,10 +43,12 @@ export const postsSlice = createSlice({
             .addCase(getPosts.fulfilled, (state, action) => {
                 state.isLoading = false;
                 state.posts = [...state.posts, ...action.payload.posts];
+                state.page = state.page + 1;
             })
             .addCase(getAllPosts.fulfilled, (state, action) => {
                 state.isLoading = false;
                 state.posts = [...state.posts, ...action.payload.posts];
+                state.page = state.page + 1;
             })
             .addCase(createPost.fulfilled, (state, action) => {
                 state.posts = [action.payload.post, ...state.posts];
@@ -94,9 +99,9 @@ export const removeLikePost = createAsyncThunk(
     }
 );
 
-export const getPosts = createAsyncThunk("posts/getPosts", async (page) => {
+export const getPosts = createAsyncThunk("posts/getPosts", async (data) => {
     try {
-        return await postsService.getPosts(page);
+        return await postsService.getPosts(data);
     } catch (error) {
         console.error(error);
     }
@@ -104,9 +109,9 @@ export const getPosts = createAsyncThunk("posts/getPosts", async (page) => {
 
 export const getAllPosts = createAsyncThunk(
     "posts/getAllPosts",
-    async (page) => {
+    async (data) => {
         try {
-            return await postsService.getAllPosts(page);
+            return await postsService.getAllPosts(data);
         } catch (error) {
             console.error(error);
         }

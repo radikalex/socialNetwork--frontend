@@ -1,14 +1,13 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { getAllPosts, getPosts, reset } from "../../features/posts/postsSlice";
 import Post from "./Post/Post";
 
 const Posts = () => {
     const dispatch = useDispatch();
-    // const { showModalAddPost } = useSelector((state) => state.posts);
     const { token } = useSelector((state) => state.auth);
-    const [page, setPage] = useState(1);
+    const { date } = useSelector((state) => state.posts);
 
     useEffect(() => {
         dispatch(reset());
@@ -16,9 +15,9 @@ const Posts = () => {
 
     useEffect(() => {
         if (token) {
-            dispatch(getPosts(page));
+            dispatch(getPosts({ page: 1, date }));
         } else {
-            dispatch(getAllPosts(page));
+            dispatch(getAllPosts({ page: 1, date }));
         }
     }, [token]);
     return (
@@ -28,7 +27,7 @@ const Posts = () => {
                     Home
                 </h1>
                 <div className="w-full">
-                    <Post setPage={setPage} />
+                    <Post />
                 </div>
             </div>
         </div>
