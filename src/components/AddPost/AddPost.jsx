@@ -16,12 +16,12 @@ const AddPost = () => {
 
     const handleClose = () => {
         setContent("");
+        setFile(undefined);
         setShowEmojiPicker(false);
         dispatch(closeModalAddPost());
     };
 
     const addEmoji = (emojiObject) => {
-        console.log(emojiObject);
         setContent(content + emojiObject.emoji);
         setShowEmojiPicker(false);
     };
@@ -30,6 +30,7 @@ const AddPost = () => {
         if (content === "") {
         } else {
             dispatch(createPost({ content, image: file }));
+            setFile(undefined);
             setContent("");
             dispatch(closeModalAddPost());
         }

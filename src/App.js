@@ -6,6 +6,7 @@ import AddPost from "./components/AddPost/AddPost";
 import Footer from "./components/Footer/Footer";
 import Header from "./components/Header/Header";
 import Login from "./components/Login/Login";
+import PostDetail from "./components/PostDetail/PostDetail";
 import Posts from "./components/Posts/Posts";
 import Register from "./components/Register/Register";
 import { getAllPosts, getPosts } from "./features/posts/postsSlice";
@@ -43,6 +44,7 @@ function App() {
                         <Route path="/" element={<Posts />} />
                         <Route path="/login" element={<Login />} />
                         <Route path="/register" element={<Register />} />
+                        <Route path="/post/:_id" element={<PostDetail />} />
                     </Routes>
                     <AddPost />
                 </main>

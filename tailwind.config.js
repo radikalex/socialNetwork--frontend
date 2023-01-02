@@ -1,4 +1,7 @@
 /** @type {import('tailwindcss').Config} */
+
+const plugin = require("tailwindcss/plugin");
+
 module.exports = {
     darkMode: "class",
     content: [
@@ -12,5 +15,22 @@ module.exports = {
             },
         },
     },
-    plugins: [require("flowbite/plugin")],
+    plugins: [
+        plugin(function ({ addUtilities }) {
+            addUtilities({
+                ".scrollbar-hide": {
+                    /* IE and Edge */
+                    "-ms-overflow-style": "none",
+
+                    /* Firefox */
+                    "scrollbar-width": "none",
+
+                    /* Safari and Chrome */
+                    "&::-webkit-scrollbar": {
+                        display: "none",
+                    },
+                },
+            });
+        }),
+    ],
 };

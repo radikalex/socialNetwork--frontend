@@ -63,7 +63,8 @@ const Post = () => {
     const postsList = posts?.map((post, idx) => {
         return (
             <div
-                className="flex gap-2 bg-gray-50 rounded-lg dark:bg-gray-800 w-full mt-4 p-4"
+                className="flex gap-2 bg-gray-50 rounded-lg dark:bg-gray-800 w-full mt-4 p-4 cursor-pointer hover:bg-gray-300 dark:hover:bg-gray-700"
+                onClick={() => navigate(`/post/${post._id}`)}
                 key={idx}
             >
                 <div className="flex flex-col items-center">

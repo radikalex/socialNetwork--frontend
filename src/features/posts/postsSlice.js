@@ -40,6 +40,10 @@ export const postsSlice = createSlice({
     },
     extraReducers: (builder) => {
         builder
+            .addCase(getPost.fulfilled, (state, action) => {
+                state.isLoading = false;
+                state.post = action.payload.post;
+            })
             .addCase(getPosts.fulfilled, (state, action) => {
                 state.isLoading = false;
                 state.posts = [...state.posts, ...action.payload.posts];
@@ -60,6 +64,7 @@ export const postsSlice = createSlice({
                     }
                     return post;
                 });
+                state.post = action.payload.post;
             })
             .addCase(removeLikePost.fulfilled, (state, action) => {
                 state.posts = state.posts.map((post) => {
@@ -68,6 +73,7 @@ export const postsSlice = createSlice({
                     }
                     return post;
                 });
+                state.post = action.payload.post;
             });
     },
 });
@@ -98,6 +104,14 @@ export const removeLikePost = createAsyncThunk(
         }
     }
 );
+
+export const getPost = createAsyncThunk("posts/getPost", async (_id) => {
+    try {
+        return await postsService.getPost(_id);
+    } catch (error) {
+        console.error(error);
+    }
+});
 
 export const getPosts = createAsyncThunk("posts/getPosts", async (data) => {
     try {
