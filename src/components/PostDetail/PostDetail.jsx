@@ -1,6 +1,7 @@
 import React, { useEffect } from "react";
 import { FaEllipsisH, FaHeart, FaRegComment, FaRegHeart } from "react-icons/fa";
 import { HiEnvelope, HiOutlineShare } from "react-icons/hi2";
+import { IoCalendar } from "react-icons/io5";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate, useParams } from "react-router-dom";
 import {
@@ -17,6 +18,49 @@ const PostDetail = () => {
     const dispatch = useDispatch();
     const navigate = useNavigate();
 
+    const getPostAge = (date) => {
+        const actualDate = new Date();
+        const postDate = new Date(date);
+        const timeElapsed = (actualDate.getTime() - postDate.getTime()) / 1000;
+
+        switch (true) {
+            case timeElapsed < 1:
+                return `A moment ago`;
+            case timeElapsed < 60: // Seconds
+                return `${Math.floor(timeElapsed)} ${
+                    Math.floor(timeElapsed) === 1 ? "second" : "seconds"
+                } ago`;
+            case timeElapsed < 3600: // Minutes
+                return `${Math.floor(timeElapsed / 60)} ${
+                    Math.floor(timeElapsed / 60) === 1 ? "minute" : "minutes"
+                } ago`;
+            case timeElapsed < 86400: // Hours
+                return `${Math.floor(timeElapsed / 3600)} ${
+                    Math.floor(timeElapsed / 3600) === 1 ? "hour" : "hours"
+                } ago`;
+            case timeElapsed < 604800: // Days
+                return `${Math.floor(timeElapsed / 86400)} ${
+                    Math.floor(timeElapsed / 86400) === 1 ? "day" : "days"
+                } ago`;
+            case timeElapsed < 1814400: // Week
+                return `${Math.floor(timeElapsed / 604800)} ${
+                    Math.floor(timeElapsed / 604800) === 1 ? "week" : "weeks"
+                } ago`;
+            case timeElapsed < 31536000: // Months
+                return `${postDate.getDate()} ${postDate
+                    .toLocaleString("en-US", { month: "short" })
+                    .toLowerCase()}.`;
+            case timeElapsed >= 31536000: // Years
+                return `${postDate.getDate()} ${postDate
+                    .toLocaleString("en-US", { month: "short" })
+                    .toLowerCase()}. ${postDate.getFullYear()}`;
+            default:
+                break;
+        }
+
+        return "";
+    };
+
     useEffect(() => {
         dispatch(getPost(_id));
         // eslint-disable-next-line
@@ -28,6 +72,54 @@ const PostDetail = () => {
     };
 
     if (!post) return null;
+
+    const commentsList = post?.commentIds.map((comment, idx) => {
+        return (
+            <div
+                key={idx}
+                className="w-full p-2 rounded-lg dark:bg-gray-600 flex flex-col gap-1"
+            >
+                <div className="w-full flex gap-3 items-center">
+                    <img
+                        className="w-9 h-9 rounded-full"
+                        src={"http://localhost:8080/" + comment.userId.user_img}
+                        alt="Profile pic"
+                    />
+                    <div className="flex flex-col justify-center text-sm">
+                        <span className=" text-gray-900 dark:text-white font-bold">
+                            {comment.userId.firstName +
+                                " " +
+                                comment.userId.lastName}
+                        </span>
+                        <span className=" text-gray-900 dark:text-gray-400">
+                            @{comment.userId.username}
+                        </span>
+                    </div>
+                    <div className="flex flex-row-reverse items-center flex-1 gap-4">
+                        <span className=" text-gray-900 dark:text-gray-300 dark:hover:bg-gray-700 hover:bg-gray-200 h-full flex items-center p-2 rounded-md cursor-pointer">
+                            <FaEllipsisH />
+                        </span>
+                    </div>
+                </div>
+                <div className="text-sm w-full whitespace-pre-wrap">
+                    {comment.content}
+                </div>
+                <div className="w-full flex justify-around text-sm dark:text-gray-300">
+                    <div className="flex gap-1 items-center">
+                        <IoCalendar />
+                        <span>{getPostAge(comment.date)}</span>
+                    </div>
+                    <div className="flex gap-2 items-center">
+                        <FaRegHeart className="cursor-pointer" />
+                        <span>
+                            {comment.likes.length}{" "}
+                            {comment.likes.length === 1 ? "like" : "likes"}
+                        </span>
+                    </div>
+                </div>
+            </div>
+        );
+    });
 
     return (
         <div className="flex-1 flex justify-center items-center">
@@ -116,8 +208,19 @@ const PostDetail = () => {
                         </div>
                     </div>
                 </div>
-                <div className="flex-1 flex flex-col justify-center items-center rounded-lg dark:bg-gray-800">
-                    <h2>Comments</h2>
+                <div className="flex-1 flex flex-col items-center rounded-lg dark:bg-gray-800">
+                    <div className="dark:bg-gray-900 w-full rounded-t-lg flex justify-center p-3">
+                        <span className="text-xl">Comments</span>
+                    </div>
+                    {post.commentIds.length ? (
+                        <div className="flex flex-col items-center gap-2 p-4">
+                            {commentsList}
+                        </div>
+                    ) : (
+                        <div className="p-4 text-slate-300">
+                            <span>No comments yet...</span>
+                        </div>
+                    )}
                 </div>
             </div>
         </div>
