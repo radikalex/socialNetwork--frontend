@@ -2,6 +2,21 @@ import axios from "axios";
 
 const API_URL = "http://localhost:8080";
 
+const createComment = async (data) => {
+    const token = JSON.parse(localStorage.getItem("token"));
+
+    const body = {
+        content: data.content,
+        date: new Date(),
+    };
+
+    const res = await axios.post(API_URL + `/comments/${data.post._id}`, body, {
+        headers: { authorization: token },
+    });
+
+    return res.data;
+};
+
 const createPost = async (data) => {
     const token = JSON.parse(localStorage.getItem("token"));
 
@@ -30,8 +45,8 @@ const getPosts = async (data) => {
     return res.data;
 };
 
-const getPost = async (_id) => {
-    const res = await axios.get(API_URL + `/posts/getPostById/${_id}`);
+const getPost = async (data) => {
+    const res = await axios.get(API_URL + `/posts/getPostById/${data._id}`);
     return res.data;
 };
 
@@ -73,6 +88,7 @@ const removeLikePost = async (_id) => {
 };
 
 const postsService = {
+    createComment,
     getPosts,
     getAllPosts,
     likePost,

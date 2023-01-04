@@ -105,7 +105,10 @@ const Post = () => {
                             />
                         </div>
                     )}
-                    <div className="flex justify-around text-gray-900 dark:text-gray-400">
+                    <div
+                        className="flex justify-around text-gray-900 dark:text-gray-400"
+                        onClick={(e) => e.stopPropagation()}
+                    >
                         <div className="flex items-center cursor-pointer hover:text-indigo-500">
                             <HiEnvelope />
                         </div>

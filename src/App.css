@@ -24,3 +24,7 @@ footer {
     background-color: aqua;
     height: 20vh;
 }
+
+textarea {
+    max-height: 70vh;
+}

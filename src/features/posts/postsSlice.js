@@ -3,6 +3,7 @@ import postsService from "./postsService";
 
 const initialState = {
     posts: [],
+    commentsPost: [],
     date: new Date().toISOString(),
     page: 1,
     post: null,
@@ -57,6 +58,12 @@ export const postsSlice = createSlice({
             .addCase(createPost.fulfilled, (state, action) => {
                 state.posts = [action.payload.post, ...state.posts];
             })
+            .addCase(createComment.fulfilled, (state, action) => {
+                state.post.commentIds = [
+                    action.payload.comment,
+                    ...state.post.commentIds,
+                ];
+            })
             .addCase(likePost.fulfilled, (state, action) => {
                 state.posts = state.posts.map((post) => {
                     if (post._id === action.payload.post._id) {
@@ -77,6 +84,17 @@ export const postsSlice = createSlice({
             });
     },
 });
+
+export const createComment = createAsyncThunk(
+    "posts/createComment",
+    async (data) => {
+        try {
+            return await postsService.createComment(data);
+        } catch (error) {
+            console.error(error);
+        }
+    }
+);
 
 export const createPost = createAsyncThunk("posts/createPost", async (data) => {
     try {
@@ -105,9 +123,9 @@ export const removeLikePost = createAsyncThunk(
     }
 );
 
-export const getPost = createAsyncThunk("posts/getPost", async (_id) => {
+export const getPost = createAsyncThunk("posts/getPost", async (data) => {
     try {
-        return await postsService.getPost(_id);
+        return await postsService.getPost(data);
     } catch (error) {
         console.error(error);
     }
