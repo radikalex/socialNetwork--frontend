@@ -99,6 +99,7 @@ const Post = () => {
                     {!post.post_img || post.post_img === "" ? null : (
                         <div className="w-full flex justify-center">
                             <img
+                                loading="lazy"
                                 className="w-auto h-auto rounded max-w-full max-h img-post"
                                 src={"http://localhost:8080/" + post.post_img}
                                 alt="Post_img"

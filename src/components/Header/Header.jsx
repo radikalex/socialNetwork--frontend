@@ -119,7 +119,7 @@ const Header = () => {
                             <li>
                                 <Link
                                     to="/notifications"
-                                    className="flex items-center p-2 text-base font-normal text-gray-900 rounded-lg dark:text-white hover:bg-gray-200 dark:hover:bg-gray-700"
+                                    className="flex items-center p-2 relative text-base font-normal text-gray-900 rounded-lg dark:text-white hover:bg-gray-200 dark:hover:bg-gray-700"
                                 >
                                     <HiBell />
                                     {open ? (
@@ -131,7 +131,11 @@ const Header = () => {
                                                 3
                                             </span>
                                         </>
-                                    ) : null}
+                                    ) : (
+                                        <span className="inline-flex absolute top-0 right-1 justify-center items-center p-2 w-3 h-3 text-sm font-medium text-blue-600 bg-blue-200 rounded-full dark:bg-blue-900 dark:text-blue-200">
+                                            3
+                                        </span>
+                                    )}
                                 </Link>
                             </li>
                         ) : null}

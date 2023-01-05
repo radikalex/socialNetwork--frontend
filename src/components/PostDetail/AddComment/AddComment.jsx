@@ -4,7 +4,7 @@ import { BsEmojiSmileFill } from "react-icons/bs";
 import { HiOutlineLink } from "react-icons/hi2";
 import { IoClose } from "react-icons/io5";
 import { useDispatch, useSelector } from "react-redux";
-import { createComment } from "../../../features/posts/postsSlice";
+import { createComment } from "../../../features/comments/commentsSlice";
 
 const AddComment = ({ showModalComment, setShowModalComment }) => {
     const { post } = useSelector((state) => state.posts);

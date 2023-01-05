@@ -4,6 +4,7 @@ import { HiEnvelope, HiOutlineShare } from "react-icons/hi2";
 import { IoCalendar } from "react-icons/io5";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate, useParams } from "react-router-dom";
+import { getComments, reset } from "../../features/comments/commentsSlice";
 import {
     getPost,
     likePost,
@@ -14,8 +15,11 @@ import "./PostDetail.scss";
 
 const PostDetail = () => {
     const [showModalComment, setShowModalComment] = useState(false);
-    const { post, date } = useSelector((state) => state.posts);
+    const [reseted, setReseted] = useState(false);
+    const { post } = useSelector((state) => state.posts);
     const { user, token } = useSelector((state) => state.auth);
+    const { comments, pageComments, dateComments, commentsLengthOffset } =
+        useSelector((state) => state.comments);
     const { _id } = useParams();
     const dispatch = useDispatch();
     const navigate = useNavigate();
@@ -63,10 +67,35 @@ const PostDetail = () => {
         return "";
     };
 
+    const handleScroll = (e) => {
+        const bottom =
+            Math.abs(
+                e.target.scrollHeight -
+                    e.target.clientHeight -
+                    e.target.scrollTop
+            ) < 1;
+        if (bottom) {
+            dispatch(
+                getComments({ _id, date: dateComments, page: pageComments })
+            );
+        }
+    };
+
     useEffect(() => {
-        dispatch(getPost({ _id, date }));
+        dispatch(reset());
+        setReseted(true);
         // eslint-disable-next-line
     }, []);
+
+    useEffect(() => {
+        if (reseted) {
+            dispatch(getPost({ _id, date: dateComments }));
+            dispatch(
+                getComments({ _id, date: dateComments, page: pageComments })
+            );
+        }
+        // eslint-disable-next-line
+    }, [reseted]);
 
     const postLiked = (post) => {
         if (!user) return false;
@@ -75,7 +104,7 @@ const PostDetail = () => {
 
     if (!post) return null;
 
-    const commentsList = post?.commentIds.map((comment, idx) => {
+    const commentsList = comments.map((comment, idx) => {
         return (
             <div
                 key={idx}
@@ -186,7 +215,10 @@ const PostDetail = () => {
                                     </div>
                                     <div className="flex gap-2 items-center cursor-pointer hover:text-blue-500">
                                         <FaRegComment />
-                                        <span>{post.commentIds.length}</span>
+                                        <span>
+                                            {post.commentIds.length +
+                                                commentsLengthOffset}
+                                        </span>
                                     </div>
                                     {postLiked(post) ? (
                                         <div
@@ -223,8 +255,11 @@ const PostDetail = () => {
                         <div className="dark:bg-gray-900 w-full rounded-t-lg flex justify-center p-3">
                             <span className="text-xl">Comments</span>
                         </div>
-                        {post.commentIds.length ? (
-                            <div className="flex flex-col w-full flex-1 items-center overflow-auto scrollbar-hide gap-2 p-4">
+                        {comments.length ? (
+                            <div
+                                className="flex flex-col w-full flex-1 items-center overflow-auto scrollbar-hide gap-2 p-4"
+                                onScroll={handleScroll}
+                            >
                                 {commentsList}
                             </div>
                         ) : (
@@ -235,7 +270,10 @@ const PostDetail = () => {
                         <div className="dark:bg-gray-900 w-full rounded-b-lg flex justify-center p-3">
                             <button
                                 className="text-white bg-gradient-to-r from-blue-500 via-blue-600 to-blue-700 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-blue-300 dark:focus:ring-blue-800 shadow-lg shadow-blue-500/50 dark:shadow-lg dark:shadow-blue-800/80 font-medium rounded-lg text-sm px-5 py-2.5 text-center"
-                                onClick={() => setShowModalComment(true)}
+                                onClick={() => {
+                                    if (token) setShowModalComment(true);
+                                    else navigate("/login");
+                                }}
                             >
                                 Add a comment
                             </button>

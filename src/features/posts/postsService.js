@@ -32,6 +32,20 @@ const createPost = async (data) => {
     return res.data;
 };
 
+const getComments = async (data) => {
+    const token = JSON.parse(localStorage.getItem("token"));
+
+    const res = await axios.get(
+        API_URL +
+            `/comments/${data.post._id}?page=${data.page}&limit=5&date=${data.date}`,
+        {
+            headers: { authorization: token },
+        }
+    );
+
+    return res.data;
+};
+
 const getPosts = async (data) => {
     const token = JSON.parse(localStorage.getItem("token"));
 
@@ -90,6 +104,7 @@ const removeLikePost = async (_id) => {
 const postsService = {
     createComment,
     getPosts,
+    getComments,
     getAllPosts,
     likePost,
     removeLikePost,
