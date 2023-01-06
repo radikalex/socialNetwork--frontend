@@ -88,26 +88,32 @@ const Post = () => {
                             />
                         </div>
                     )}
-                    <div
-                        className="flex justify-around text-gray-900 dark:text-gray-400"
-                        onClick={(e) => e.stopPropagation()}
-                    >
+                    <div className="flex justify-around text-gray-900 dark:text-gray-400">
                         <div className="flex items-center cursor-pointer hover:text-indigo-500">
                             <HiEnvelope />
                         </div>
                         <div className="flex items-center cursor-pointer hover:text-green-500">
                             <HiOutlineShare />
                         </div>
-                        <div className="flex gap-2 items-center cursor-pointer hover:text-blue-500">
+                        <div
+                            className="flex gap-2 items-center cursor-pointer hover:text-blue-500"
+                            onClick={(e) => {
+                                e.stopPropagation();
+                                navigate(`/post/${post._id}`, {
+                                    state: { showAddComment: true },
+                                });
+                            }}
+                        >
                             <FaRegComment />
                             <span>{post.commentIds.length}</span>
                         </div>
                         {postLiked(post) ? (
                             <div
                                 className="flex gap-2 items-center cursor-pointer text-red-600 text-sm"
-                                onClick={() =>
-                                    dispatch(removeLikePost(post._id))
-                                }
+                                onClick={(e) => {
+                                    e.stopPropagation();
+                                    dispatch(removeLikePost(post._id));
+                                }}
                             >
                                 <FaHeart />
                                 <span>{post.likes.length}</span>
@@ -115,7 +121,8 @@ const Post = () => {
                         ) : (
                             <div
                                 className="flex gap-2 items-center cursor-pointer hover:text-red-600"
-                                onClick={() => {
+                                onClick={(e) => {
+                                    e.stopPropagation();
                                     if (token) dispatch(likePost(post._id));
                                     else navigate("/login");
                                 }}
