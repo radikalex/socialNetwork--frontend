@@ -4,6 +4,7 @@ import { HiEnvelope, HiOutlineShare } from "react-icons/hi2";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { likePost, removeLikePost } from "../../../features/posts/postsSlice";
+import { getTimeElapsed } from "../../../utils/getTimeElapsed";
 import "./Post.scss";
 
 const Post = () => {
@@ -15,49 +16,6 @@ const Post = () => {
     const postLiked = (post) => {
         if (!user || !posts) return false;
         return post.likes.includes(user._id);
-    };
-
-    const getPostAge = (date) => {
-        const actualDate = new Date();
-        const postDate = new Date(date);
-        const timeElapsed = (actualDate.getTime() - postDate.getTime()) / 1000;
-
-        switch (true) {
-            case timeElapsed < 1:
-                return `A moment ago`;
-            case timeElapsed < 60: // Seconds
-                return `${Math.floor(timeElapsed)} ${
-                    Math.floor(timeElapsed) === 1 ? "second" : "seconds"
-                } ago`;
-            case timeElapsed < 3600: // Minutes
-                return `${Math.floor(timeElapsed / 60)} ${
-                    Math.floor(timeElapsed / 60) === 1 ? "minute" : "minutes"
-                } ago`;
-            case timeElapsed < 86400: // Hours
-                return `${Math.floor(timeElapsed / 3600)} ${
-                    Math.floor(timeElapsed / 3600) === 1 ? "hour" : "hours"
-                } ago`;
-            case timeElapsed < 604800: // Days
-                return `${Math.floor(timeElapsed / 86400)} ${
-                    Math.floor(timeElapsed / 86400) === 1 ? "day" : "days"
-                } ago`;
-            case timeElapsed < 1814400: // Week
-                return `${Math.floor(timeElapsed / 604800)} ${
-                    Math.floor(timeElapsed / 604800) === 1 ? "week" : "weeks"
-                } ago`;
-            case timeElapsed < 31536000: // Months
-                return `${postDate.getDate()} ${postDate
-                    .toLocaleString("en-US", { month: "short" })
-                    .toLowerCase()}.`;
-            case timeElapsed >= 31536000: // Years
-                return `${postDate.getDate()} ${postDate
-                    .toLocaleString("en-US", { month: "short" })
-                    .toLowerCase()}. ${postDate.getFullYear()}`;
-            default:
-                break;
-        }
-
-        return "";
     };
 
     const postsList = posts?.map((post, idx) => {
@@ -87,7 +45,7 @@ const Post = () => {
                                 <FaEllipsisH />
                             </span>
                             <span className=" text-gray-900 dark:text-gray-400">
-                                {getPostAge(post.date)}
+                                {getTimeElapsed(post.date)}
                             </span>
                         </div>
                     </div>
