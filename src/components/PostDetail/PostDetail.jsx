@@ -3,7 +3,7 @@ import { FaEllipsisH, FaHeart, FaRegComment, FaRegHeart } from "react-icons/fa";
 import { HiEnvelope, HiOutlineShare } from "react-icons/hi2";
 import { IoCalendar } from "react-icons/io5";
 import { useDispatch, useSelector } from "react-redux";
-import { useNavigate, useParams } from "react-router-dom";
+import { useLocation, useNavigate, useParams } from "react-router-dom";
 import {
     getComments,
     likeComment,
@@ -35,6 +35,7 @@ const PostDetail = () => {
         useSelector((state) => state.comments);
     const { _id } = useParams();
     const dispatch = useDispatch();
+    const location = useLocation();
     const navigate = useNavigate();
 
     const handleScroll = (e) => {
@@ -63,6 +64,11 @@ const PostDetail = () => {
             dispatch(
                 getComments({ _id, date: dateComments, page: pageComments })
             );
+            console.log(location.state);
+            if (location.state && location.state.showAddComment) {
+                setShowModalComment(location.state.showAddComment);
+                navigate(location.pathname, {});
+            }
         }
         // eslint-disable-next-line
     }, [reseted]);
@@ -264,7 +270,14 @@ const PostDetail = () => {
                                         <div className="flex items-center cursor-pointer hover:text-green-500">
                                             <HiOutlineShare />
                                         </div>
-                                        <div className="flex gap-2 items-center cursor-pointer hover:text-blue-500">
+                                        <div
+                                            className="flex gap-2 items-center cursor-pointer hover:text-blue-500"
+                                            onClick={() => {
+                                                if (token)
+                                                    setShowModalComment(true);
+                                                else navigate("/login");
+                                            }}
+                                        >
                                             <FaRegComment />
                                             <span>
                                                 {post.commentIds.length +
