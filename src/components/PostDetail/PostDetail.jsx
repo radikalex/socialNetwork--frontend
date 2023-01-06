@@ -4,7 +4,12 @@ import { HiEnvelope, HiOutlineShare } from "react-icons/hi2";
 import { IoCalendar } from "react-icons/io5";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate, useParams } from "react-router-dom";
-import { getComments, reset } from "../../features/comments/commentsSlice";
+import {
+    getComments,
+    likeComment,
+    removeLikeComment,
+    reset,
+} from "../../features/comments/commentsSlice";
 import {
     getPost,
     likePost,
@@ -102,6 +107,11 @@ const PostDetail = () => {
         return post.likes.includes(user._id);
     };
 
+    const commentLiked = (comment) => {
+        if (!user) return false;
+        return comment.likes.includes(user._id);
+    };
+
     if (!post) return null;
 
     const commentsList = comments.map((comment, idx) => {
@@ -140,13 +150,35 @@ const PostDetail = () => {
                         <IoCalendar />
                         <span>{getPostAge(comment.date)}</span>
                     </div>
-                    <div className="flex gap-2 items-center">
-                        <FaRegHeart className="cursor-pointer" />
-                        <span>
-                            {comment.likes.length}{" "}
-                            {comment.likes.length === 1 ? "like" : "likes"}
-                        </span>
-                    </div>
+                    {commentLiked(comment) ? (
+                        <div className="flex gap-2 items-center">
+                            <FaHeart
+                                className="cursor-pointer text-red-600"
+                                onClick={() =>
+                                    dispatch(removeLikeComment(comment._id))
+                                }
+                            />
+                            <span className="hover:underline cursor-pointer">
+                                {comment.likes.length}{" "}
+                                {comment.likes.length === 1 ? "like" : "likes"}
+                            </span>
+                        </div>
+                    ) : (
+                        <div className="flex gap-2 items-center">
+                            <FaRegHeart
+                                className="cursor-pointer hover:text-red-600"
+                                onClick={() => {
+                                    if (token)
+                                        dispatch(likeComment(comment._id));
+                                    else navigate("/login");
+                                }}
+                            />
+                            <span className="hover:underline cursor-pointer">
+                                {comment.likes.length}{" "}
+                                {comment.likes.length === 1 ? "like" : "likes"}
+                            </span>
+                        </div>
+                    )}
                 </div>
             </div>
         );

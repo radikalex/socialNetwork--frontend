@@ -31,9 +31,39 @@ const getComments = async (data) => {
     return res.data;
 };
 
+const likeComment = async (_id) => {
+    const token = JSON.parse(localStorage.getItem("token"));
+
+    const res = await axios.put(
+        API_URL + `/comments/giveLike/${_id}`,
+        {},
+        {
+            headers: { authorization: token },
+        }
+    );
+
+    return res.data;
+};
+
+const removeLikeComment = async (_id) => {
+    const token = JSON.parse(localStorage.getItem("token"));
+
+    const res = await axios.put(
+        API_URL + `/comments/removeLike/${_id}`,
+        {},
+        {
+            headers: { authorization: token },
+        }
+    );
+
+    return res.data;
+};
+
 const commentsService = {
     createComment,
     getComments,
+    likeComment,
+    removeLikeComment,
 };
 
 export default commentsService;

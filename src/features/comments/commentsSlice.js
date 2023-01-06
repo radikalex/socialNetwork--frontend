@@ -44,6 +44,22 @@ export const commentsSlice = createSlice({
             .addCase(createComment.fulfilled, (state, action) => {
                 state.comments = [action.payload.comment, ...state.comments];
                 state.commentsLengthOffset = state.commentsLengthOffset + 1;
+            })
+            .addCase(likeComment.fulfilled, (state, action) => {
+                state.comments = state.comments.map((comment) => {
+                    if (comment._id === action.payload.comment._id) {
+                        comment = action.payload.comment;
+                    }
+                    return comment;
+                });
+            })
+            .addCase(removeLikeComment.fulfilled, (state, action) => {
+                state.comments = state.comments.map((comment) => {
+                    if (comment._id === action.payload.comment._id) {
+                        comment = action.payload.comment;
+                    }
+                    return comment;
+                });
             });
     },
 });
@@ -64,6 +80,28 @@ export const getComments = createAsyncThunk(
     async (data) => {
         try {
             return await commentsService.getComments(data);
+        } catch (error) {
+            console.error(error);
+        }
+    }
+);
+
+export const likeComment = createAsyncThunk(
+    "comments/likeComment",
+    async (_id) => {
+        try {
+            return await commentsService.likeComment(_id);
+        } catch (error) {
+            console.error(error);
+        }
+    }
+);
+
+export const removeLikeComment = createAsyncThunk(
+    "comments/removeLikeComment",
+    async (_id) => {
+        try {
+            return await commentsService.removeLikeComment(_id);
         } catch (error) {
             console.error(error);
         }
