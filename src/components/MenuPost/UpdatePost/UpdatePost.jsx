@@ -41,7 +41,12 @@ const UpdatePost = ({ handleClose, postId, oldContent, src }) => {
             }}
             onClick={() => setShowEmojiPicker(false)}
         >
-            <div id="modal-content" className="p-4">
+            <div className="p-4 relative flex justify-center">
+                <span className="text-2xl font-semibold text-gray-900 dark:text-white">
+                    Update your post
+                </span>
+            </div>
+            <div className="p-4 divContentAddPost overflow-auto scrollbar-hide">
                 <div className="w-full border border-gray-200 rounded-lg bg-gray-50 dark:bg-gray-700 dark:border-gray-600">
                     <div className="flex items-center justify-between px-3 py-2 border-b dark:border-gray-600">
                         <div className="flex flex-wrap items-center divide-gray-200 sm:divide-x dark:divide-gray-600">
@@ -114,7 +119,7 @@ const UpdatePost = ({ handleClose, postId, oldContent, src }) => {
                     </div>
                     <div className="flex justify-center items-center">
                         {(file || srcImage !== "") && (
-                            <>
+                            <div className="relative divImgAddPost m-4">
                                 <img
                                     src={
                                         file
@@ -122,7 +127,7 @@ const UpdatePost = ({ handleClose, postId, oldContent, src }) => {
                                             : srcImage
                                     }
                                     alt="Post img"
-                                    className="w-2/5 m-4"
+                                    className="imgAddPost"
                                 />
                                 <button
                                     type="button"
@@ -130,11 +135,11 @@ const UpdatePost = ({ handleClose, postId, oldContent, src }) => {
                                         setFile(undefined);
                                         setSrcImage("");
                                     }}
-                                    className="focus:outline-none h-1/4 text-white bg-red-700 hover:bg-red-800 focus:ring-4 focus:ring-red-300 font-medium rounded-lg text-sm px-2 py-2.5 mr-2 mb-2 dark:bg-red-600 dark:hover:bg-red-700 dark:focus:ring-red-900"
+                                    className="absolute top-0 right-0 focus:outline-none text-white bg-red-700 hover:bg-red-800 focus:ring-4 focus:ring-red-300 font-medium rounded text-sm px-2 py-2.5 dark:bg-red-600 dark:hover:bg-red-700 dark:focus:ring-red-900"
                                 >
                                     <IoClose className="text-xl" />
                                 </button>
-                            </>
+                            </div>
                         )}
                     </div>
                 </div>
@@ -159,7 +164,7 @@ const UpdatePost = ({ handleClose, postId, oldContent, src }) => {
                     </div>
                 ) : null}
             </div>
-            <div id="modal-footer" className="p-4 flex flex-row-reverse">
+            <div className="p-4 flex flex-row-reverse">
                 <button
                     type="button"
                     className="text-white bg-gradient-to-r from-blue-500 via-blue-600 to-blue-700 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-blue-300 dark:focus:ring-blue-800 shadow-lg shadow-blue-500/50 dark:shadow-lg dark:shadow-blue-800/80 font-medium rounded-lg text-sm px-5 py-2.5 text-center mr-2 mb-2 "

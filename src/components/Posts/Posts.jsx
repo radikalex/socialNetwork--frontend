@@ -7,7 +7,6 @@ import Post from "./Post/Post";
 const Posts = () => {
     const dispatch = useDispatch();
     const { token } = useSelector((state) => state.auth);
-    const { date } = useSelector((state) => state.posts);
 
     useEffect(() => {
         dispatch(reset());
@@ -15,9 +14,9 @@ const Posts = () => {
 
     useEffect(() => {
         if (token) {
-            dispatch(getPosts({ page: 1, date }));
+            dispatch(getPosts({ page: 1, date: new Date().toISOString() }));
         } else {
-            dispatch(getAllPosts({ page: 1, date }));
+            dispatch(getAllPosts({ page: 1, date: new Date().toISOString() }));
         }
     }, [token]);
     return (

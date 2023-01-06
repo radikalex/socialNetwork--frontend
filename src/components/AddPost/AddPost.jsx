@@ -52,7 +52,7 @@ const AddPost = () => {
         >
             <div
                 id="modal-container"
-                className="relative bg-white rounded-lg shadow dark:bg-gray-700 max-w-3xl w-2/3 overflow-y-auto max-h-full"
+                className="relative bg-white rounded-lg shadow dark:bg-gray-700 max-w-3xl w-2/3 overflow-y-auto"
                 onMouseDown={(e) => {
                     e.stopPropagation();
                 }}
@@ -71,7 +71,10 @@ const AddPost = () => {
                             className="absolute cursor-pointer right-0 top-0 m-3 text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-2xl ml-auto inline-flex items-center dark:hover:bg-gray-600 dark:hover:text-white"
                         />
                     </div>
-                    <div id="modal-content" className="p-4">
+                    <div
+                        id="modal-content"
+                        className="p-4 divContentAddPost overflow-auto scrollbar-hide"
+                    >
                         <div className="w-full border border-gray-200 rounded-lg bg-gray-50 dark:bg-gray-700 dark:border-gray-600">
                             <div className="flex items-center justify-between px-3 py-2 border-b dark:border-gray-600">
                                 <div className="flex flex-wrap items-center divide-gray-200 sm:divide-x dark:divide-gray-600">
@@ -148,20 +151,20 @@ const AddPost = () => {
                             </div>
                             <div className="flex justify-center items-center">
                                 {file && (
-                                    <>
+                                    <div className="relative divImgAddPost m-4">
                                         <img
                                             src={URL.createObjectURL(file)}
                                             alt="Post img"
-                                            className="w-2/5 m-4"
+                                            className="imgAddPost"
                                         />
                                         <button
                                             type="button"
                                             onClick={() => setFile(undefined)}
-                                            className="focus:outline-none h-1/4 text-white bg-red-700 hover:bg-red-800 focus:ring-4 focus:ring-red-300 font-medium rounded-lg text-sm px-2 py-2.5 mr-2 mb-2 dark:bg-red-600 dark:hover:bg-red-700 dark:focus:ring-red-900"
+                                            className="absolute top-0 right-0 focus:outline-none text-white bg-red-700 hover:bg-red-800 focus:ring-4 focus:ring-red-300 font-medium rounded text-sm px-2 py-2.5 dark:bg-red-600 dark:hover:bg-red-700 dark:focus:ring-red-900"
                                         >
                                             <IoClose className="text-xl" />
                                         </button>
-                                    </>
+                                    </div>
                                 )}
                             </div>
                         </div>
