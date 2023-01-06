@@ -1,18 +1,35 @@
 /* eslint-disable react-hooks/exhaustive-deps */
+import { Spinner } from "flowbite-react";
 import React, { useEffect, useState } from "react";
 import { FaPencilAlt } from "react-icons/fa";
 import { IoStatsChart, IoTrash } from "react-icons/io5";
 import { useDispatch, useSelector } from "react-redux";
+import { useLocation, useNavigate } from "react-router-dom";
 import { deletePost } from "../../features/posts/postsSlice";
+import UpdatePost from "./UpdatePost/UpdatePost";
 
-const MenuPost = ({ username, showMenuPost, setShowMenuPost, postId }) => {
+const MenuPost = ({
+    username,
+    showMenuPost,
+    setShowMenuPost,
+    postId,
+    content,
+    urlImage,
+}) => {
     const { user } = useSelector((state) => state.auth);
-    const { posts } = useSelector((state) => state.posts);
+    const { posts, isLoading } = useSelector((state) => state.posts);
     const [deletePostFlag, setDeletePostFlag] = useState(false);
+    const [updatePostFlag, setUpdatePostFlag] = useState(false);
     const dispatch = useDispatch();
+    const location = useLocation();
+    const navigate = useNavigate();
 
     useEffect(() => {
+        if (deletePostFlag && location.pathname === `/post/${postId}`)
+            navigate("/");
         setShowMenuPost(false);
+        setDeletePostFlag(false);
+        setUpdatePostFlag(false);
     }, [posts]);
 
     if (!showMenuPost) return null;
@@ -20,6 +37,7 @@ const MenuPost = ({ username, showMenuPost, setShowMenuPost, postId }) => {
     const handleClose = () => {
         setShowMenuPost(false);
         setDeletePostFlag(false);
+        setUpdatePostFlag(false);
     };
 
     return (
@@ -27,7 +45,7 @@ const MenuPost = ({ username, showMenuPost, setShowMenuPost, postId }) => {
             className="absolute w-screen h-screen left-0 top-0 bg-black bg-opacity-50 z-20 flex justify-center items-center"
             onMouseDown={handleClose}
         >
-            {!deletePostFlag ? (
+            {!deletePostFlag && !updatePostFlag ? (
                 <div
                     className="dark:bg-gray-900 flex flex-col w-1/4 dark:text-white rounded-lg shadow dark:shadow-white"
                     onMouseDown={(e) => {
@@ -51,7 +69,10 @@ const MenuPost = ({ username, showMenuPost, setShowMenuPost, postId }) => {
                             >
                                 <IoTrash /> Delete my post
                             </div>
-                            <div className="p-4 flex justify-center items-center gap-2 dark:hover:bg-gray-800 cursor-pointer text-green-500">
+                            <div
+                                className="p-4 flex justify-center items-center gap-2 dark:hover:bg-gray-800 cursor-pointer text-green-500"
+                                onClick={() => setUpdatePostFlag(true)}
+                            >
                                 <FaPencilAlt />
                                 Edit my post
                             </div>
@@ -62,7 +83,7 @@ const MenuPost = ({ username, showMenuPost, setShowMenuPost, postId }) => {
                         </>
                     )}
                 </div>
-            ) : (
+            ) : deletePostFlag ? (
                 <div
                     className="dark:bg-gray-900 flex flex-col gap-2 w-1/4 p-6 dark:text-white rounded-lg shadow dark:shadow-white"
                     onMouseDown={(e) => {
@@ -97,9 +118,16 @@ const MenuPost = ({ username, showMenuPost, setShowMenuPost, postId }) => {
                     <div className="flex flex-col gap-2 items-center">
                         <button
                             className="focus:outline-none w-3/5 text-white bg-red-700 hover:bg-red-800 focus:ring-4 focus:ring-red-300 font-medium rounded-lg text-sm px-5 py-2.5 dark:bg-red-600 dark:hover:bg-red-700 dark:focus:ring-red-900"
-                            onClick={() => dispatch(deletePost(postId))}
+                            onClick={() => {
+                                dispatch(deletePost(postId));
+                            }}
                         >
-                            Delete
+                            <span className="flex items-center justify-center gap-2">
+                                {isLoading ? (
+                                    <Spinner aria-label="Spinner button example" />
+                                ) : null}
+                                <span>Delete</span>
+                            </span>
                         </button>
                         <button
                             className="py-2.5 px-5 text-sm w-3/5 font-medium text-gray-900 focus:outline-none bg-white rounded-lg border border-gray-200 hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:ring-4 focus:ring-gray-200 dark:focus:ring-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:text-white dark:hover:bg-gray-700"
@@ -109,6 +137,13 @@ const MenuPost = ({ username, showMenuPost, setShowMenuPost, postId }) => {
                         </button>
                     </div>
                 </div>
+            ) : (
+                <UpdatePost
+                    handleClose={handleClose}
+                    postId={postId}
+                    oldContent={content}
+                    src={urlImage}
+                />
             )}
         </div>
     );

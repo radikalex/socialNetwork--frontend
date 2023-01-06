@@ -101,6 +101,22 @@ const removeLikePost = async (_id) => {
     return res.data;
 };
 
+const updatePost = async (data) => {
+    const token = JSON.parse(localStorage.getItem("token"));
+
+    const formData = new FormData();
+    formData.append("content", data.content);
+    formData.append("date", new Date());
+    if (data.image) formData.append("post_img", data.image);
+    else if (data.image === "") formData.append("post_img", "");
+
+    const res = await axios.put(API_URL + `/posts/id/${data._id}`, formData, {
+        headers: { authorization: token },
+    });
+
+    return res.data;
+};
+
 const deletePost = async (_id) => {
     const token = JSON.parse(localStorage.getItem("token"));
 
@@ -120,6 +136,7 @@ const postsService = {
     removeLikePost,
     createPost,
     getPost,
+    updatePost,
     deletePost,
 };
 

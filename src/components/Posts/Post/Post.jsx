@@ -14,6 +14,8 @@ const Post = () => {
     const [showMenuPost, setShowMenuPost] = useState(false);
     const [username, setUsername] = useState("");
     const [postId, setPostId] = useState("");
+    const [urlImage, SetUrlImage] = useState("");
+    const [content, setContent] = useState("");
     const dispatch = useDispatch();
     const navigate = useNavigate();
 
@@ -51,6 +53,13 @@ const Post = () => {
                                     e.stopPropagation();
                                     setUsername(post.userId.username);
                                     setPostId(post._id);
+                                    setContent(post.content);
+                                    SetUrlImage(
+                                        post.post_img && post.post_img !== ""
+                                            ? "http://localhost:8080/" +
+                                                  post.post_img
+                                            : ""
+                                    );
                                     setShowMenuPost(true);
                                 }}
                             >
@@ -58,6 +67,9 @@ const Post = () => {
                             </span>
                             <span className="text-gray-900 dark:text-gray-400">
                                 {getTimeElapsed(post.date)}
+                                {post.createdAt !== post.updatedAt
+                                    ? " (edited)"
+                                    : null}
                             </span>
                         </div>
                     </div>
@@ -123,6 +135,8 @@ const Post = () => {
             <MenuPost
                 username={username}
                 postId={postId}
+                content={content}
+                urlImage={urlImage}
                 showMenuPost={showMenuPost}
                 setShowMenuPost={setShowMenuPost}
             />
