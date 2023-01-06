@@ -12,22 +12,26 @@ const AddPost = () => {
     const [content, setContent] = useState("");
     const [showEmojiPicker, setShowEmojiPicker] = useState(false);
     const [file, setFile] = useState();
+    const [validationError, setValidationError] = useState("");
     const dispatch = useDispatch();
 
     const handleClose = () => {
         setContent("");
         setFile(undefined);
         setShowEmojiPicker(false);
+        setValidationError("");
         dispatch(closeModalAddPost());
     };
 
     const addEmoji = (emojiObject) => {
         setContent(content + emojiObject.emoji);
+        setValidationError("");
         setShowEmojiPicker(false);
     };
 
     const handlePublishPost = () => {
-        if (content === "") {
+        if (content === "" && !file) {
+            setValidationError("Write something or add an image for your post");
         } else {
             dispatch(createPost({ content, image: file }));
             setFile(undefined);
@@ -93,11 +97,12 @@ const AddPost = () => {
                                                     id="post-file"
                                                     accept="image/png, image/jpg, image/jpeg"
                                                     className="hidden"
-                                                    onChange={(e) =>
+                                                    onChange={(e) => {
                                                         setFile(
                                                             e.target.files[0]
-                                                        )
-                                                    }
+                                                        );
+                                                        setValidationError("");
+                                                    }}
                                                 />
                                             </div>
                                         </label>
@@ -126,7 +131,10 @@ const AddPost = () => {
                                     placeholder="Write a post..."
                                     value={content}
                                     onClick={() => setShowEmojiPicker(false)}
-                                    onChange={(e) => setContent(e.target.value)}
+                                    onChange={(e) => {
+                                        setContent(e.target.value);
+                                        setValidationError("");
+                                    }}
                                     required
                                 ></textarea>
                                 {showEmojiPicker && (
@@ -157,6 +165,26 @@ const AddPost = () => {
                                 )}
                             </div>
                         </div>
+                        {validationError !== "" ? (
+                            <div className="flex justify-center pt-3">
+                                <span className="text-red-600 dark:text-red-500 flex justify-center gap-2 items-center">
+                                    <svg
+                                        aria-hidden="true"
+                                        className="flex-shrink-0 w-5 h-5 text-red-700 dark:text-red-600"
+                                        fill="currentColor"
+                                        viewBox="0 0 20 20"
+                                        xmlns="http://www.w3.org/2000/svg"
+                                    >
+                                        <path
+                                            fillRule="evenodd"
+                                            d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z"
+                                            clipRule="evenodd"
+                                        ></path>
+                                    </svg>
+                                    {validationError}
+                                </span>
+                            </div>
+                        ) : null}
                     </div>
                     <div
                         id="modal-footer"

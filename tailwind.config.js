@@ -30,6 +30,9 @@ module.exports = {
                         display: "none",
                     },
                 },
+                ".bg-gray-780": {
+                    "background-color": "rgb(36 46 61 / 1)",
+                },
             });
         }),
     ],
