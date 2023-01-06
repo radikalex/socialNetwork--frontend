@@ -18,12 +18,17 @@ import {
 import { getTimeElapsed } from "../../utils/getTimeElapsed";
 import MenuPost from "../MenuPost/MenuPost";
 import AddComment from "./AddComment/AddComment";
+import MenuComment from "./MenuComment/MenuComment";
 import "./PostDetail.scss";
 
 const PostDetail = () => {
     const [showModalComment, setShowModalComment] = useState(false);
     const [showMenuPost, setShowMenuPost] = useState(false);
+    const [showMenuComment, setShowMenuComment] = useState(false);
     const [reseted, setReseted] = useState(false);
+    const [username, setUsername] = useState("");
+    const [commentId, setCommentId] = useState("");
+    const [content, setContent] = useState("");
     const { post } = useSelector((state) => state.posts);
     const { user, token } = useSelector((state) => state.auth);
     const { comments, pageComments, dateComments, commentsLengthOffset } =
@@ -95,7 +100,15 @@ const PostDetail = () => {
                         </span>
                     </div>
                     <div className="flex flex-row-reverse items-center flex-1 gap-4">
-                        <span className=" text-gray-900 dark:text-gray-300 dark:hover:bg-gray-700 hover:bg-gray-200 h-full flex items-center p-2 rounded-md cursor-pointer">
+                        <span
+                            className=" text-gray-900 dark:text-gray-300 dark:hover:bg-gray-700 hover:bg-gray-200 h-full flex items-center p-2 rounded-md cursor-pointer"
+                            onClick={() => {
+                                setUsername(comment.userId.username);
+                                setCommentId(comment._id);
+                                setContent(comment.content);
+                                setShowMenuComment(true);
+                            }}
+                        >
                             <FaEllipsisH />
                         </span>
                     </div>
@@ -177,6 +190,13 @@ const PostDetail = () => {
                 showMenuPost={showMenuPost}
                 setShowMenuPost={setShowMenuPost}
             />
+            <MenuComment
+                username={username}
+                commentId={commentId}
+                content={content}
+                showMenuComment={showMenuComment}
+                setShowMenuComment={setShowMenuComment}
+            />
             {!post ? null : (
                 <div className="flex-1 flex justify-center items-center">
                     <div className="flex w-3/5 dark:bg-gray-700 rounded-lg dark:text-white p-4 gap-2 container-post-detail">
@@ -213,8 +233,7 @@ const PostDetail = () => {
                                             </span>
                                             <span className="text-gray-900 dark:text-gray-400">
                                                 {getDateDetail(post.date)}
-                                                {post.createdAt !==
-                                                post.updatedAt
+                                                {post.date !== post.dateCreated
                                                     ? " (edited)"
                                                     : null}
                                             </span>

@@ -60,6 +60,11 @@ export const commentsSlice = createSlice({
                     }
                     return comment;
                 });
+            })
+            .addCase(deleteComment.fulfilled, (state, action) => {
+                state.comments = state.comments.filter(
+                    (comment) => comment._id !== action.payload.comment._id
+                );
             });
     },
 });
@@ -69,6 +74,17 @@ export const createComment = createAsyncThunk(
     async (data) => {
         try {
             return await commentsService.createComment(data);
+        } catch (error) {
+            console.error(error);
+        }
+    }
+);
+
+export const deleteComment = createAsyncThunk(
+    "comments/deleteComment",
+    async (data) => {
+        try {
+            return await commentsService.deleteComment(data);
         } catch (error) {
             console.error(error);
         }

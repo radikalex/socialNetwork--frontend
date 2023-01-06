@@ -67,7 +67,7 @@ const Post = () => {
                             </span>
                             <span className="text-gray-900 dark:text-gray-400">
                                 {getTimeElapsed(post.date)}
-                                {post.createdAt !== post.updatedAt
+                                {post.date !== post.dateCreated
                                     ? " (edited)"
                                     : null}
                             </span>
