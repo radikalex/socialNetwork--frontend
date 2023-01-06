@@ -1,8 +1,12 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import { Spinner } from "flowbite-react";
 import React, { useEffect, useState } from "react";
+import { BsFilePost, BsFillPersonPlusFill } from "react-icons/bs";
 import { FaPencilAlt } from "react-icons/fa";
+import { HiOutlineLink } from "react-icons/hi2";
+import { ImBlocked } from "react-icons/im";
 import { IoStatsChart, IoTrash } from "react-icons/io5";
+import { MdReport } from "react-icons/md";
 import { useDispatch, useSelector } from "react-redux";
 import { useLocation, useNavigate } from "react-router-dom";
 import { deletePost } from "../../features/posts/postsSlice";
@@ -54,11 +58,23 @@ const MenuPost = ({
                 >
                     {!user || user.username !== username ? (
                         <>
-                            <div className="p-4 flex justify-center dark:hover:bg-gray-800 cursor-pointer rounded-t-lg">
+                            <div className="p-4 flex justify-center items-center gap-2 dark:hover:bg-gray-800 cursor-pointer rounded-t-lg text-yellow-400">
+                                <MdReport className="text-2xl" />
                                 Report this post
                             </div>
-                            <div className="p-4 flex justify-center dark:hover:bg-gray-800 cursor-pointer rounded-b-lg">
+                            <div className="p-4 flex justify-center items-center gap-2 dark:hover:bg-gray-800 cursor-pointer">
+                                <BsFillPersonPlusFill className="text-xl" />
+                                Follow @{username}
+                            </div>
+                            <div className="p-4 flex justify-center items-center gap-2 dark:hover:bg-gray-800 cursor-pointer">
+                                <ImBlocked />
                                 Block @{username}
+                            </div>
+                            <div
+                                className="p-4 flex justify-center items-center gap-2 dark:hover:bg-gray-800 cursor-pointer rounded-b-lg"
+                                onClick={() => setShowMenuPost(false)}
+                            >
+                                Cancel
                             </div>
                         </>
                     ) : (
@@ -76,9 +92,23 @@ const MenuPost = ({
                                 <FaPencilAlt />
                                 Edit my post
                             </div>
-                            <div className="p-4 flex justify-center items-center gap-2 dark:hover:bg-gray-800 cursor-pointer rounded-b-lg">
+                            <div className="p-4 flex justify-center items-center gap-2 dark:hover:bg-gray-800 cursor-pointer">
+                                <HiOutlineLink />
+                                Copy link
+                            </div>
+                            <div className="p-4 flex justify-center items-center gap-2 dark:hover:bg-gray-800 cursor-pointer">
+                                <BsFilePost />
+                                Go to post
+                            </div>
+                            <div className="p-4 flex justify-center items-center gap-2 dark:hover:bg-gray-800 cursor-pointer">
                                 <IoStatsChart />
                                 Show statistics of this post
+                            </div>
+                            <div
+                                className="p-4 flex justify-center items-center gap-2 dark:hover:bg-gray-800 cursor-pointer rounded-b-lg"
+                                onClick={() => setShowMenuPost(false)}
+                            >
+                                Cancel
                             </div>
                         </>
                     )}
