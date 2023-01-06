@@ -75,6 +75,12 @@ export const postsSlice = createSlice({
                     return post;
                 });
                 state.post = action.payload.post;
+            })
+            .addCase(deletePost.fulfilled, (state, action) => {
+                state.posts = state.posts.filter(
+                    (post) => post._id !== action.payload.post._id
+                );
+                state.post = null;
             });
     },
 });
@@ -132,6 +138,14 @@ export const getAllPosts = createAsyncThunk(
         }
     }
 );
+
+export const deletePost = createAsyncThunk("posts/deletePost", async (_id) => {
+    try {
+        return await postsService.deletePost(_id);
+    } catch (error) {
+        console.error(error);
+    }
+});
 
 export const { reset, closeModalAddPost, openModalAddPost } =
     postsSlice.actions;

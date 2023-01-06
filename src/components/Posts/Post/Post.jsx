@@ -13,6 +13,7 @@ const Post = () => {
     const { user, token } = useSelector((state) => state.auth);
     const [showMenuPost, setShowMenuPost] = useState(false);
     const [username, setUsername] = useState("");
+    const [postId, setPostId] = useState("");
     const dispatch = useDispatch();
     const navigate = useNavigate();
 
@@ -49,6 +50,7 @@ const Post = () => {
                                 onClick={(e) => {
                                     e.stopPropagation();
                                     setUsername(post.userId.username);
+                                    setPostId(post._id);
                                     setShowMenuPost(true);
                                 }}
                             >
@@ -120,6 +122,7 @@ const Post = () => {
         <>
             <MenuPost
                 username={username}
+                postId={postId}
                 showMenuPost={showMenuPost}
                 setShowMenuPost={setShowMenuPost}
             />
