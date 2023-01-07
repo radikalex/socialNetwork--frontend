@@ -1,18 +1,24 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, { useEffect, useState } from "react";
-import { BsFillPersonPlusFill } from "react-icons/bs";
+import { BsFillPersonDashFill, BsFillPersonPlusFill } from "react-icons/bs";
+import { FaPencilAlt } from "react-icons/fa";
 import { HiEnvelope } from "react-icons/hi2";
 import { useDispatch, useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
 import { resetComments } from "../../features/comments/commentsSlice";
 import { reset } from "../../features/posts/postsSlice";
-import { getUserProfile } from "../../features/users/usersSlice";
+import {
+    follow,
+    getUserProfile,
+    unfollow,
+} from "../../features/users/usersSlice";
 import "./Profile.scss";
 
 const Profile = () => {
     const { username } = useParams();
     const [reseted, setReseted] = useState(false);
     const { userProfile } = useSelector((state) => state.users);
+    const { user } = useSelector((state) => state.auth);
     const dispatch = useDispatch();
 
     useEffect(() => {
@@ -20,6 +26,11 @@ const Profile = () => {
         dispatch(reset());
         setReseted(true);
     }, []);
+
+    const alreadyFollowing = (userFollower, userFollowing) => {
+        if (!userFollower || !userFollowing) return false;
+        return userFollowing.followers.includes(userFollower._id);
+    };
 
     useEffect(() => {
         if (reseted) {
@@ -44,21 +55,57 @@ const Profile = () => {
                         <div className="flex gap-2 text-xl font-bold">
                             <span>{userProfile.username}</span>
                         </div>
-                        <div className="flex-1 flex flex-row-reverse gap-2">
-                            <button
-                                type="button"
-                                class="text-gray-900 bg-white border flex items-center justify-center gap-2 border-gray-300 focus:outline-none hover:bg-gray-100 focus:ring-4 focus:ring-gray-200 font-medium rounded-full text-sm px-5 py-2.5 dark:bg-gray-800 dark:text-white dark:border-gray-600 dark:hover:bg-gray-700 dark:hover:border-gray-600 dark:focus:ring-gray-700"
-                            >
-                                <HiEnvelope className="text-lg" />
-                                Send message
-                            </button>
-                            <button
-                                type="button"
-                                class="text-gray-900 bg-white border flex items-center justify-center gap-2 border-gray-300 focus:outline-none hover:bg-gray-100 focus:ring-4 focus:ring-gray-200 font-medium rounded-full text-sm px-5 py-2.5 dark:bg-gray-800 dark:text-white dark:border-gray-600 dark:hover:bg-gray-700 dark:hover:border-gray-600 dark:focus:ring-gray-700"
-                            >
-                                <BsFillPersonPlusFill className="text-lg" />
-                                Follow
-                            </button>
+                        <div className="flex-1 flex flex-row-reverse gap-2 pr-4">
+                            {user &&
+                            userProfile &&
+                            user.username !== userProfile.username ? (
+                                <>
+                                    <button
+                                        type="button"
+                                        className="text-gray-900 bg-white border flex items-center justify-center gap-2 border-gray-300 focus:outline-none hover:bg-gray-100 focus:ring-4 focus:ring-gray-200 font-medium rounded-full text-sm px-5 py-2.5 dark:bg-gray-800 dark:text-white dark:border-gray-600 dark:hover:bg-gray-700 dark:hover:border-gray-600 dark:focus:ring-gray-700"
+                                    >
+                                        <HiEnvelope className="text-lg" />
+                                        Send message
+                                    </button>
+                                    {alreadyFollowing(user, userProfile) ? (
+                                        <button
+                                            type="button"
+                                            className="text-gray-900 bg-white border flex items-center justify-center gap-2 border-gray-300 focus:outline-none hover:bg-gray-100 focus:ring-4 focus:ring-gray-200 font-medium rounded-full text-sm px-5 py-2.5 dark:bg-gray-800 dark:text-white dark:border-gray-600 dark:hover:bg-gray-700 dark:hover:border-gray-600 dark:focus:ring-gray-700"
+                                            onClick={() =>
+                                                dispatch(
+                                                    unfollow(userProfile._id)
+                                                )
+                                            }
+                                        >
+                                            <BsFillPersonDashFill className="text-lg" />
+                                            Stop following
+                                        </button>
+                                    ) : (
+                                        <button
+                                            type="button"
+                                            className="text-gray-900 bg-white border flex items-center justify-center gap-2 border-gray-300 focus:outline-none hover:bg-gray-100 focus:ring-4 focus:ring-gray-200 font-medium rounded-full text-sm px-5 py-2.5 dark:bg-gray-800 dark:text-white dark:border-gray-600 dark:hover:bg-gray-700 dark:hover:border-gray-600 dark:focus:ring-gray-700"
+                                            onClick={() =>
+                                                dispatch(
+                                                    follow(userProfile._id)
+                                                )
+                                            }
+                                        >
+                                            <BsFillPersonPlusFill className="text-lg" />
+                                            Follow
+                                        </button>
+                                    )}
+                                </>
+                            ) : (
+                                <>
+                                    <button
+                                        type="button"
+                                        className="text-gray-900 bg-white border flex items-center justify-center gap-2 border-gray-300 focus:outline-none hover:bg-gray-100 focus:ring-4 focus:ring-gray-200 font-medium rounded-full text-sm px-5 py-2.5 dark:bg-gray-800 dark:text-white dark:border-gray-600 dark:hover:bg-gray-700 dark:hover:border-gray-600 dark:focus:ring-gray-700"
+                                    >
+                                        <FaPencilAlt />
+                                        Edit my profile
+                                    </button>
+                                </>
+                            )}
                         </div>
                     </div>
                     <div className="flex justify-around">

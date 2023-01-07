@@ -12,7 +12,7 @@ import {
     IoSettingsSharp,
 } from "react-icons/io5";
 import { useDispatch, useSelector } from "react-redux";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { getLoggedUser } from "../../features/auth/authSlice";
 import { openModalAddPost } from "../../features/posts/postsSlice";
 import "./Header.scss";
@@ -22,6 +22,7 @@ const Header = () => {
     const { token, user } = useSelector((state) => state.auth);
     const [open, setOpen] = useState(true);
     const [showModalLogout, setShowModalLogout] = useState(false);
+    const navigate = useNavigate();
     const dispatch = useDispatch();
     const sidebar = useRef();
 
@@ -156,17 +157,19 @@ const Header = () => {
                         ) : null}
                         {token ? (
                             <li>
-                                <Link
-                                    to="/profile"
-                                    className="flex items-center p-2 text-base font-normal text-gray-900 rounded-lg dark:text-white hover:bg-gray-200 dark:hover:bg-gray-700"
+                                <span
+                                    onClick={() =>
+                                        navigate(`/profile/${user.username}`)
+                                    }
+                                    className="flex items-center cursor-pointer p-2 text-base font-normal text-gray-900 rounded-lg dark:text-white hover:bg-gray-200 dark:hover:bg-gray-700"
                                 >
                                     <HiUser />
                                     {open ? (
                                         <span className="flex-1 ml-3 whitespace-nowrap">
-                                            Profile
+                                            Profile {}
                                         </span>
                                     ) : null}
-                                </Link>
+                                </span>
                             </li>
                         ) : null}
                         {token ? (
