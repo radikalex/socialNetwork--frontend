@@ -10,6 +10,7 @@ const AddComment = ({ showModalComment, setShowModalComment }) => {
     const { post } = useSelector((state) => state.posts);
     const [showEmojiPicker, setShowEmojiPicker] = useState(false);
     const [content, setContent] = useState("");
+    const [validationError, setValidationError] = useState("");
     const dispatch = useDispatch();
 
     const handleClose = () => {
@@ -19,6 +20,7 @@ const AddComment = ({ showModalComment, setShowModalComment }) => {
     const handlePublishComment = (e) => {
         e.preventDefault();
         if (content === "") {
+            setValidationError("Comment cant be empty. Write something");
         } else {
             dispatch(createComment({ content, post }));
             setContent("");
@@ -70,10 +72,12 @@ const AddComment = ({ showModalComment, setShowModalComment }) => {
                                     rows="6"
                                     value={content}
                                     onClick={() => setShowEmojiPicker(false)}
-                                    onChange={(e) => setContent(e.target.value)}
+                                    onChange={(e) => {
+                                        setValidationError("");
+                                        setContent(e.target.value);
+                                    }}
                                     className="w-full px-0 text-sm text-gray-900 bg-white border-0 dark:bg-gray-800 focus:ring-0 dark:text-white dark:placeholder-gray-400 focus:outline-none"
                                     placeholder="Write a comment..."
-                                    required
                                 ></textarea>
                                 {showEmojiPicker && (
                                     <EmojiPicker
@@ -84,6 +88,26 @@ const AddComment = ({ showModalComment, setShowModalComment }) => {
                                     />
                                 )}
                             </div>
+                            {validationError !== "" ? (
+                                <div className="flex justify-center p-2">
+                                    <span className="text-red-600 dark:text-red-500 flex justify-center gap-2 items-center">
+                                        <svg
+                                            aria-hidden="true"
+                                            className="flex-shrink-0 w-5 h-5 text-red-700 dark:text-red-600"
+                                            fill="currentColor"
+                                            viewBox="0 0 20 20"
+                                            xmlns="http://www.w3.org/2000/svg"
+                                        >
+                                            <path
+                                                fillRule="evenodd"
+                                                d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z"
+                                                clipRule="evenodd"
+                                            ></path>
+                                        </svg>
+                                        {validationError}
+                                    </span>
+                                </div>
+                            ) : null}
                             <div className="flex items-center justify-between px-3 py-2 border-t dark:border-gray-600">
                                 <div
                                     className="flex pl-0 space-x-1 sm:pl-2"
@@ -108,7 +132,7 @@ const AddComment = ({ showModalComment, setShowModalComment }) => {
                                 <div>
                                     <button
                                         type="submit"
-                                        className="text-white bg-gradient-to-r from-blue-500 via-blue-600 to-blue-700 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-blue-300 dark:focus:ring-blue-800 shadow-lg shadow-blue-500/50 dark:shadow-lg dark:shadow-blue-800/80 font-medium rounded-lg text-sm px-5 py-2.5 text-center"
+                                        className="text-white bg-gradient-to-r from-blue-500 via-blue-600 to-blue-700 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-blue-300 dark:focus:ring-blue-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center"
                                     >
                                         Post comment
                                     </button>

@@ -197,7 +197,7 @@ const MenuPost = ({
                 </div>
             ) : (
                 <UpdatePost
-                    handleClose={handleClose}
+                    setUpdatePostFlag={setUpdatePostFlag}
                     postId={postId}
                     oldContent={content}
                     src={urlImage}

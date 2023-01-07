@@ -21,7 +21,7 @@ export const commentsSlice = createSlice({
     name: "comments",
     initialState,
     reducers: {
-        reset: (state) => {
+        resetComments: (state) => {
             state.isError = false;
             state.isSuccess = false;
             state.isLoading = false;
@@ -45,6 +45,12 @@ export const commentsSlice = createSlice({
                 state.comments = [action.payload.comment, ...state.comments];
                 state.commentsLengthOffset = state.commentsLengthOffset + 1;
             })
+            .addCase(updateComment.fulfilled, (state, action) => {
+                state.comments = state.comments.filter(
+                    (comment) => comment._id !== action.payload.comment._id
+                );
+                state.comments = [action.payload.comment, ...state.comments];
+            })
             .addCase(likeComment.fulfilled, (state, action) => {
                 state.comments = state.comments.map((comment) => {
                     if (comment._id === action.payload.comment._id) {
@@ -65,6 +71,7 @@ export const commentsSlice = createSlice({
                 state.comments = state.comments.filter(
                     (comment) => comment._id !== action.payload.comment._id
                 );
+                state.commentsLengthOffset = state.commentsLengthOffset - 1;
             });
     },
 });
@@ -74,6 +81,17 @@ export const createComment = createAsyncThunk(
     async (data) => {
         try {
             return await commentsService.createComment(data);
+        } catch (error) {
+            console.error(error);
+        }
+    }
+);
+
+export const updateComment = createAsyncThunk(
+    "comments/updateComment",
+    async (data) => {
+        try {
+            return await commentsService.updateComment(data);
         } catch (error) {
             console.error(error);
         }
@@ -124,6 +142,6 @@ export const removeLikeComment = createAsyncThunk(
     }
 );
 
-export const { reset } = commentsSlice.actions;
+export const { resetComments } = commentsSlice.actions;
 
 export default commentsSlice.reducer;

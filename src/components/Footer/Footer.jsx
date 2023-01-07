@@ -112,7 +112,7 @@ const Footer = () => {
             <hr className="my-2 border-gray-200 sm:mx-auto dark:border-gray-700 lg:my-4" />
             <div className="sm:flex sm:items-center sm:justify-between lg:px-40">
                 <span className="text-sm text-gray-500 sm:text-center dark:text-gray-400">
-                    © 2022{" "}
+                    © 2023{" "}
                     <a href="https://flowbite.com/" className="hover:underline">
                         Alex Jimenez™
                     </a>

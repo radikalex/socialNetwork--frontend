@@ -17,6 +17,21 @@ const createComment = async (data) => {
     return res.data;
 };
 
+const updateComment = async (data) => {
+    const token = JSON.parse(localStorage.getItem("token"));
+
+    const body = {
+        content: data.content,
+        date: new Date(),
+    };
+
+    const res = await axios.put(API_URL + `/comments/${data._id}`, body, {
+        headers: { authorization: token },
+    });
+
+    return res.data;
+};
+
 const deleteComment = async (_id) => {
     const token = JSON.parse(localStorage.getItem("token"));
 
@@ -71,6 +86,7 @@ const removeLikeComment = async (_id) => {
 
 const commentsService = {
     createComment,
+    updateComment,
     deleteComment,
     getComments,
     likeComment,

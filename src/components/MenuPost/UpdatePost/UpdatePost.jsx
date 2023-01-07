@@ -6,7 +6,7 @@ import { IoClose, IoImage } from "react-icons/io5";
 import { useDispatch } from "react-redux";
 import { updatePost } from "../../../features/posts/postsSlice";
 
-const UpdatePost = ({ handleClose, postId, oldContent, src }) => {
+const UpdatePost = ({ setUpdatePostFlag, postId, oldContent, src }) => {
     const [content, setContent] = useState(oldContent);
     const [showEmojiPicker, setShowEmojiPicker] = useState(false);
     const [file, setFile] = useState();
@@ -167,15 +167,15 @@ const UpdatePost = ({ handleClose, postId, oldContent, src }) => {
             <div className="p-4 flex flex-row-reverse">
                 <button
                     type="button"
-                    className="text-white bg-gradient-to-r from-blue-500 via-blue-600 to-blue-700 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-blue-300 dark:focus:ring-blue-800 shadow-lg shadow-blue-500/50 dark:shadow-lg dark:shadow-blue-800/80 font-medium rounded-lg text-sm px-5 py-2.5 text-center mr-2 mb-2 "
+                    className="text-white bg-gradient-to-r from-green-500 via-green-600 to-green-700 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-green-300 dark:focus:ring-green-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center mr-2 mb-2 "
                     onClick={handleUpdatePost}
                 >
                     Update post
                 </button>
                 <button
                     type="button"
-                    className="text-white bg-gradient-to-r from-slate-400 via-slate-500 to-slate-600 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-slate-300 dark:focus:ring-slate-800 shadow-lg shadow-slate-500/50 dark:shadow-lg dark:shadow-slate-800/80 font-medium rounded-lg text-sm px-5 py-2.5 text-center mr-2 mb-2"
-                    onClick={handleClose}
+                    className="text-white bg-gradient-to-r from-slate-400 via-slate-500 to-slate-600 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-slate-300 dark:focus:ring-slate-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center mr-2 mb-2"
+                    onClick={() => setUpdatePostFlag(false)}
                 >
                     Decline
                 </button>

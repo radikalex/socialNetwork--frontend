@@ -7,6 +7,7 @@ import { IoStatsChart, IoTrash } from "react-icons/io5";
 import { MdReport } from "react-icons/md";
 import { useDispatch, useSelector } from "react-redux";
 import { deleteComment } from "../../../features/comments/commentsSlice";
+import UpdateComment from "./UpdateComment/UpdateComment";
 
 const MenuComment = ({
     username,
@@ -146,7 +147,14 @@ const MenuComment = ({
                         </button>
                     </div>
                 </div>
-            ) : null}
+            ) : (
+                <UpdateComment
+                    handleClose={handleClose}
+                    commentId={commentId}
+                    oldContent={content}
+                    setUpdateCommentFlag={setUpdateCommentFlag}
+                />
+            )}
         </div>
     );
 };

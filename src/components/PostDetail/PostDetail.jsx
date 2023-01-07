@@ -8,7 +8,7 @@ import {
     getComments,
     likeComment,
     removeLikeComment,
-    reset,
+    resetComments,
 } from "../../features/comments/commentsSlice";
 import {
     getPost,
@@ -53,7 +53,7 @@ const PostDetail = () => {
     };
 
     useEffect(() => {
-        dispatch(reset());
+        dispatch(resetComments());
         setReseted(true);
         // eslint-disable-next-line
     }, []);
@@ -64,7 +64,6 @@ const PostDetail = () => {
             dispatch(
                 getComments({ _id, date: dateComments, page: pageComments })
             );
-            console.log(location.state);
             if (location.state && location.state.showAddComment) {
                 setShowModalComment(location.state.showAddComment);
                 navigate(location.pathname, {});
@@ -125,7 +124,12 @@ const PostDetail = () => {
                 <div className="w-full flex justify-around text-sm dark:text-gray-300">
                     <div className="flex gap-1 items-center">
                         <IoCalendar />
-                        <span>{getTimeElapsed(comment.date)}</span>
+                        <span>
+                            {getTimeElapsed(comment.date)}
+                            {comment.date !== comment.dateCreated
+                                ? " (edited)"
+                                : null}
+                        </span>
                     </div>
                     {commentLiked(comment) ? (
                         <div className="flex gap-2 items-center">
@@ -205,7 +209,7 @@ const PostDetail = () => {
             />
             {!post ? null : (
                 <div className="flex-1 flex justify-center items-center">
-                    <div className="flex w-3/5 dark:bg-gray-700 rounded-lg dark:text-white p-4 gap-2 container-post-detail">
+                    <div className="flex w-8/12 dark:bg-gray-700 rounded-lg dark:text-white p-4 gap-2 container-post-detail">
                         <div className="flex-2 flex flex-col">
                             <div className="w-full flex flex-col justify-center items-center gap-2 h-full">
                                 <div className="w-full max-h-full flex flex-col gap-2 p-4 rounded-lg dark:bg-gray-800">
@@ -315,7 +319,7 @@ const PostDetail = () => {
                                 </div>
                             </div>
                         </div>
-                        <div className="flex-1 flex flex-col items-center rounded-lg dark:bg-gray-800">
+                        <div className="comments-container flex flex-col items-center rounded-lg dark:bg-gray-800">
                             <div className="dark:bg-gray-900 w-full rounded-t-lg flex justify-center p-3">
                                 <span className="text-xl">Comments</span>
                             </div>
@@ -333,7 +337,7 @@ const PostDetail = () => {
                             )}
                             <div className="dark:bg-gray-900 w-full rounded-b-lg flex justify-center p-3">
                                 <button
-                                    className="text-white bg-gradient-to-r from-blue-500 via-blue-600 to-blue-700 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-blue-300 dark:focus:ring-blue-800 shadow-lg shadow-blue-500/50 dark:shadow-lg dark:shadow-blue-800/80 font-medium rounded-lg text-sm px-5 py-2.5 text-center"
+                                    className="text-white bg-gradient-to-r from-blue-500 via-blue-600 to-blue-700 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-blue-300 dark:focus:ring-blue-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center"
                                     onClick={() => {
                                         if (token) setShowModalComment(true);
                                         else navigate("/login");
