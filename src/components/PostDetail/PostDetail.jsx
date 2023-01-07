@@ -93,14 +93,27 @@ const PostDetail = () => {
                         className="w-9 h-9 rounded-full hover:opacity-80 cursor-pointer"
                         src={"http://localhost:8080/" + comment.userId.user_img}
                         alt="Profile pic"
+                        onClick={(e) => {
+                            navigate(`/profile/${comment.userId.username}`);
+                        }}
                     />
                     <div className="flex flex-col justify-center text-sm">
-                        <span className=" text-gray-900 dark:text-white font-bold hover:underline hover:underline-offset-2 cursor-pointer">
+                        <span
+                            className=" text-gray-900 dark:text-white font-bold hover:underline hover:underline-offset-2 cursor-pointer"
+                            onClick={(e) => {
+                                navigate(`/profile/${comment.userId.username}`);
+                            }}
+                        >
                             {comment.userId.firstName +
                                 " " +
                                 comment.userId.lastName}
                         </span>
-                        <span className=" text-gray-900 dark:text-gray-400 hover:underline hover:underline-offset-2 cursor-pointer">
+                        <span
+                            className=" text-gray-900 dark:text-gray-400 hover:underline hover:underline-offset-2 cursor-pointer"
+                            onClick={(e) => {
+                                navigate(`/profile/${comment.userId.username}`);
+                            }}
+                        >
                             @{comment.userId.username}
                         </span>
                     </div>
@@ -221,14 +234,33 @@ const PostDetail = () => {
                                                 post.userId.user_img
                                             }
                                             alt="Profile pic"
+                                            onClick={(e) => {
+                                                navigate(
+                                                    `/profile/${post.userId.username}`
+                                                );
+                                            }}
                                         />
                                         <div className="flex flex-col justify-center">
-                                            <span className=" text-gray-900 dark:text-white font-bold hover:underline hover:underline-offset-2 cursor-pointer">
+                                            <span
+                                                className=" text-gray-900 dark:text-white font-bold hover:underline hover:underline-offset-2 cursor-pointer"
+                                                onClick={(e) => {
+                                                    navigate(
+                                                        `/profile/${post.userId.username}`
+                                                    );
+                                                }}
+                                            >
                                                 {post.userId.firstName +
                                                     " " +
                                                     post.userId.lastName}
                                             </span>
-                                            <span className=" text-gray-900 dark:text-gray-400 hover:underline hover:underline-offset-2 cursor-pointer">
+                                            <span
+                                                className=" text-gray-900 dark:text-gray-400 hover:underline hover:underline-offset-2 cursor-pointer"
+                                                onClick={(e) => {
+                                                    navigate(
+                                                        `/profile/${post.userId.username}`
+                                                    );
+                                                }}
+                                            >
                                                 @{post.userId.username}
                                             </span>
                                         </div>

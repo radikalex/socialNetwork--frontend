@@ -36,14 +36,30 @@ const Post = () => {
                         className="w-12 h-12 rounded-full hover:opacity-80"
                         src={"http://localhost:8080/" + post.userId.user_img}
                         alt="Profile pic"
+                        onClick={(e) => {
+                            e.stopPropagation();
+                            navigate(`/profile/${post.userId.username}`);
+                        }}
                     />
                 </div>
                 <div className="flex flex-col flex-1 gap-2">
                     <div className="flex gap-3">
-                        <span className=" text-gray-900 dark:text-white font-bold hover:underline hover:underline-offset-2">
+                        <span
+                            className=" text-gray-900 dark:text-white font-bold hover:underline hover:underline-offset-2"
+                            onClick={(e) => {
+                                e.stopPropagation();
+                                navigate(`/profile/${post.userId.username}`);
+                            }}
+                        >
                             {post.userId.firstName + " " + post.userId.lastName}
                         </span>
-                        <span className=" text-gray-900 dark:text-gray-400 hover:underline hover:underline-offset-2">
+                        <span
+                            className=" text-gray-900 dark:text-gray-400 hover:underline hover:underline-offset-2"
+                            onClick={(e) => {
+                                e.stopPropagation();
+                                navigate(`/profile/${post.userId.username}`);
+                            }}
+                        >
                             @{post.userId.username}
                         </span>
                         <div className="flex flex-row-reverse items-center flex-1 gap-4 relative">

@@ -1,4 +1,5 @@
-import { createSlice } from "@reduxjs/toolkit";
+import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
+import usersService from "./usersService";
 
 const initialState = {
     users: [],
@@ -19,7 +20,7 @@ export const usersSlice = createSlice({
     initialState,
     reducers: {
         resetUsers: (state) => {
-            state.isError = false;
+            state.userProfile = false;
             state.isSuccess = false;
             state.isLoading = false;
             state.errorMessage = "";
@@ -27,8 +28,23 @@ export const usersSlice = createSlice({
             state.userProfile = null;
         },
     },
-    extraReducers: (builder) => {},
+    extraReducers: (builder) => {
+        builder.addCase(getUserProfile.fulfilled, (state, action) => {
+            state.userProfile = action.payload.user;
+        });
+    },
 });
+
+export const getUserProfile = createAsyncThunk(
+    "users/getUserProfile",
+    async (data) => {
+        try {
+            return await usersService.getUserProfile(data);
+        } catch (error) {
+            console.error(error);
+        }
+    }
+);
 
 export const { resetUsers } = usersSlice.actions;
 
