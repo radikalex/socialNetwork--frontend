@@ -63,6 +63,10 @@ export const postsSlice = createSlice({
                 state.posts = [...state.posts, ...action.payload.posts];
                 state.page = state.page + 1;
             })
+            .addCase(getPostsQuery.fulfilled, (state, action) => {
+                state.isLoading = false;
+                state.posts = action.payload.posts;
+            })
             .addCase(createPost.fulfilled, (state, action) => {
                 state.posts = [action.payload.post, ...state.posts];
             })
@@ -145,6 +149,17 @@ export const getPostsLikedByUser = createAsyncThunk(
     async (data) => {
         try {
             return await postsService.getPostsLikedByUser(data);
+        } catch (error) {
+            console.error(error);
+        }
+    }
+);
+
+export const getPostsQuery = createAsyncThunk(
+    "posts/getPostsQuery",
+    async (data) => {
+        try {
+            return await postsService.getPostsQuery(data);
         } catch (error) {
             console.error(error);
         }

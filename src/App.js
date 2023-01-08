@@ -3,6 +3,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { Route, Routes, useLocation } from "react-router-dom";
 import "./App.css";
 import AddPost from "./components/AddPost/AddPost";
+import Explore from "./components/Explore/Explore";
 import Footer from "./components/Footer/Footer";
 import Header from "./components/Header/Header";
 import Login from "./components/Login/Login";
@@ -48,6 +49,7 @@ function App() {
                     <Route path="/" element={<Posts />} />
                     <Route path="/login" element={<Login />} />
                     <Route path="/register" element={<Register />} />
+                    <Route path="/explore" element={<Explore />} />
                     <Route path="/post/:_id" element={<PostDetail />} />
                     <Route path="/profile/:username" element={<Profile />}>
                         <Route path="followers" element={<ModalFollow />} />

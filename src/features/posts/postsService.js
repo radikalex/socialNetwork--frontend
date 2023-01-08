@@ -30,6 +30,20 @@ const getPosts = async (data) => {
     return res.data;
 };
 
+const getPostsQuery = async (data) => {
+    const token = JSON.parse(localStorage.getItem("token"));
+
+    const res = await axios.get(
+        API_URL +
+            `/posts/getPostsQuery?page=1&limit=10&search=${data.search}&date=${data.date}`,
+        {
+            headers: { authorization: token },
+        }
+    );
+
+    return res.data;
+};
+
 const getPost = async (data) => {
     const res = await axios.get(API_URL + `/posts/getPostById/${data._id}`);
     return res.data;
@@ -124,6 +138,7 @@ const postsService = {
     deletePost,
     getPostsCreatedByUser,
     getPostsLikedByUser,
+    getPostsQuery,
 };
 
 export default postsService;

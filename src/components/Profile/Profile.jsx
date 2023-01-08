@@ -197,7 +197,6 @@ const Profile = () => {
                         Likes
                     </div>
                 </div>
-
                 <ProfileContainers containers={containers} />
             </div>
             <Outlet />
