@@ -14,6 +14,7 @@ import {
 } from "../../features/users/usersSlice";
 import ModalUpdateProfile from "./ModalUpdateProfile/ModalUpdateProfile";
 import "./Profile.scss";
+import ProfileContainers from "./ProfileContainers/ProfileContainers";
 
 const Profile = () => {
     const { username } = useParams();
@@ -21,6 +22,7 @@ const Profile = () => {
     const [showModalUpdateProfile, setShowModalUpdateProfile] = useState(false);
     const { userProfile } = useSelector((state) => state.users);
     const { user } = useSelector((state) => state.auth);
+    const [containers, SetContainers] = useState(0);
     const dispatch = useDispatch();
     const navigate = useNavigate();
 
@@ -56,7 +58,7 @@ const Profile = () => {
                 showModalUpdateProfile={showModalUpdateProfile}
                 setShowModalUpdateProfile={setShowModalUpdateProfile}
             />
-            <div className="flex-1 flex flex-col items-center dark:text-white">
+            <div className="flex-1 flex flex-col gap-4 items-center dark:text-white">
                 <div className="w-3/5 bg-gray-800 flex p-4 rounded-b-lg">
                     <div className="flex justify-center items-center p-10">
                         <img
@@ -173,6 +175,30 @@ const Profile = () => {
                         </div>
                     </div>
                 </div>
+                <div className="w-3/5 bg-gray-800 flex rounded-lg">
+                    <div
+                        className={
+                            containers === 0
+                                ? "flex-1 p-4 rounded-l-lg cursor-pointer flex justify-center items-center bg-slate-600"
+                                : "flex-1 p-4 rounded-l-lg cursor-pointer flex justify-center items-center"
+                        }
+                        onClick={() => SetContainers(0)}
+                    >
+                        Posts
+                    </div>
+                    <div
+                        className={
+                            containers === 1
+                                ? "flex-1 p-4 rounded-r-lg flex justify-center items-center cursor-pointer bg-slate-600"
+                                : "flex-1 p-4 rounded-r-lg flex justify-center items-center cursor-pointer"
+                        }
+                        onClick={() => SetContainers(1)}
+                    >
+                        Likes
+                    </div>
+                </div>
+
+                <ProfileContainers containers={containers} />
             </div>
             <Outlet />
         </>

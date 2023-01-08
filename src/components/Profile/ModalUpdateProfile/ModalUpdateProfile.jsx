@@ -24,6 +24,9 @@ const ModalUpdateProfile = ({
     });
     const { firstName, lastName, username, bio } = data;
     const onChange = (e) => {
+        if (isError) {
+            dispatch(resetUsersFlags());
+        }
         setData((prevState) => ({
             ...prevState,
             [e.target.name]: e.target.value,
@@ -114,6 +117,7 @@ const ModalUpdateProfile = ({
                                             accept="image/png, image/jpg, image/jpeg"
                                             className="hidden"
                                             onChange={(e) => {
+                                                dispatch(resetUsersFlags());
                                                 setFile(e.target.files[0]);
                                             }}
                                         />

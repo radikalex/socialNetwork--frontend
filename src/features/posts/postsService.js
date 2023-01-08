@@ -2,21 +2,6 @@ import axios from "axios";
 
 const API_URL = "http://localhost:8080";
 
-const createComment = async (data) => {
-    const token = JSON.parse(localStorage.getItem("token"));
-
-    const body = {
-        content: data.content,
-        date: new Date(),
-    };
-
-    const res = await axios.post(API_URL + `/comments/${data.post._id}`, body, {
-        headers: { authorization: token },
-    });
-
-    return res.data;
-};
-
 const createPost = async (data) => {
     const token = JSON.parse(localStorage.getItem("token"));
 
@@ -32,25 +17,11 @@ const createPost = async (data) => {
     return res.data;
 };
 
-const getComments = async (data) => {
-    const token = JSON.parse(localStorage.getItem("token"));
-
-    const res = await axios.get(
-        API_URL +
-            `/comments/${data.post._id}?page=${data.page}&limit=5&date=${data.date}`,
-        {
-            headers: { authorization: token },
-        }
-    );
-
-    return res.data;
-};
-
 const getPosts = async (data) => {
     const token = JSON.parse(localStorage.getItem("token"));
 
     const res = await axios.get(
-        API_URL + `/posts/getPosts?page=${data.page}&limit=5&date=${data.date}`,
+        API_URL + `/posts/getPosts?page=${data.page}&limit=6&date=${data.date}`,
         {
             headers: { authorization: token },
         }
@@ -64,10 +35,25 @@ const getPost = async (data) => {
     return res.data;
 };
 
+const getPostsLikedByUser = async (data) => {
+    const res = await axios.get(
+        API_URL + `/posts/getPostsLikedByUser/${data._id}`
+    );
+    return res.data;
+};
+
+const getPostsCreatedByUser = async (data) => {
+    const res = await axios.get(
+        API_URL +
+            `/posts/getPostsCreatedByUser/${data._id}?page=1&limit=10&date=${data.date}`
+    );
+    return res.data;
+};
+
 const getAllPosts = async (data) => {
     const res = await axios.get(
         API_URL +
-            `/posts/getAllPosts?page=${data.page}&limit=5&date=${data.date}`
+            `/posts/getAllPosts?page=${data.page}&limit=6&date=${data.date}`
     );
 
     return res.data;
@@ -128,9 +114,7 @@ const deletePost = async (_id) => {
 };
 
 const postsService = {
-    createComment,
     getPosts,
-    getComments,
     getAllPosts,
     likePost,
     removeLikePost,
@@ -138,6 +122,8 @@ const postsService = {
     getPost,
     updatePost,
     deletePost,
+    getPostsCreatedByUser,
+    getPostsLikedByUser,
 };
 
 export default postsService;
