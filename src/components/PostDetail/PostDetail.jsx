@@ -93,6 +93,7 @@ const PostDetail = () => {
                         className="w-9 h-9 rounded-full hover:opacity-80 cursor-pointer"
                         src={
                             process.env.REACT_APP_API_URL +
+                            "/" +
                             comment.userId.user_img
                         }
                         alt="Profile pic"
@@ -210,7 +211,7 @@ const PostDetail = () => {
                 content={post?.content}
                 urlImage={
                     post?.post_img && post?.post_img !== ""
-                        ? process.env.REACT_APP_API_URL + post?.post_img
+                        ? process.env.REACT_APP_API_URL + "/" + post?.post_img
                         : ""
                 }
                 showMenuPost={showMenuPost}
@@ -234,6 +235,7 @@ const PostDetail = () => {
                                             className="w-16 h-16 rounded-full hover:opacity-80 cursor-pointer"
                                             src={
                                                 process.env.REACT_APP_API_URL +
+                                                "/" +
                                                 post.userId.user_img
                                             }
                                             alt="Profile pic"
@@ -296,6 +298,7 @@ const PostDetail = () => {
                                                     src={
                                                         process.env
                                                             .REACT_APP_API_URL +
+                                                        "/" +
                                                         post.post_img
                                                     }
                                                     alt="Post_img"

@@ -44,7 +44,11 @@ const ModalFollow = () => {
                 <div className="flex flex-col items-center justify-center">
                     <img
                         className="w-14 h-14 rounded-full hover:opacity-80 cursor-pointer"
-                        src={process.env.REACT_APP_API_URL + follower.user_img}
+                        src={
+                            process.env.REACT_APP_API_URL +
+                            "/" +
+                            follower.user_img
+                        }
                         alt="Profile pic"
                         onClick={(e) => {
                             navigate(`/profile/${follower.username}`);
@@ -118,7 +122,11 @@ const ModalFollow = () => {
                 <div className="flex flex-col items-center justify-center">
                     <img
                         className="w-14 h-14 rounded-full hover:opacity-80 cursor-pointer"
-                        src={process.env.REACT_APP_API_URL + following.user_img}
+                        src={
+                            process.env.REACT_APP_API_URL +
+                            "/" +
+                            following.user_img
+                        }
                         alt="Profile pic"
                         onClick={(e) => {
                             navigate(`/profile/${following.username}`);

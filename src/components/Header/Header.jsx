@@ -262,6 +262,7 @@ const Header = () => {
                                         }
                                         src={
                                             process.env.REACT_APP_API_URL +
+                                            "/" +
                                             user.user_img
                                         }
                                         alt="Profile pic"

@@ -65,6 +65,7 @@ const Profile = () => {
                             className="w-36 h-36 rounded-full"
                             src={
                                 process.env.REACT_APP_API_URL +
+                                "/" +
                                 userProfile.user_img
                             }
                             alt="Profile pic"
