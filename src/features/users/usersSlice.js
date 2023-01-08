@@ -51,6 +51,35 @@ export const usersSlice = createSlice({
                         return follower;
                     }
                 );
+                if (action.payload.newFollower._id === state.userProfile._id) {
+                    state.userProfile.following = [
+                        action.payload.followedUser,
+                        ...state.userProfile.following,
+                    ];
+                }
+            })
+            .addCase(followFollowing.fulfilled, (state, action) => {
+                state.userProfile.following = state.userProfile.following.map(
+                    (followingUser) => {
+                        if (
+                            followingUser._id ===
+                            action.payload.followedUser._id
+                        ) {
+                            followingUser.followers = [
+                                action.payload.newFollower._id,
+                                ...followingUser.following,
+                            ];
+                        }
+                        return followingUser;
+                    }
+                );
+            })
+            .addCase(unfollow.fulfilled, (state, action) => {
+                state.userProfile.followers =
+                    state.userProfile.followers.filter(
+                        (follower) =>
+                            follower._id !== action.payload.oldFollower._id
+                    );
             })
             .addCase(unfollowFollower.fulfilled, (state, action) => {
                 state.userProfile.followers = state.userProfile.followers.map(
@@ -65,13 +94,39 @@ export const usersSlice = createSlice({
                         return follower;
                     }
                 );
+                if (action.payload.oldFollower._id === state.userProfile._id) {
+                    state.userProfile.following =
+                        state.userProfile.following.filter(
+                            (following) =>
+                                following._id !==
+                                action.payload.unfollowedUser._id
+                        );
+                }
             })
-            .addCase(unfollow.fulfilled, (state, action) => {
-                state.userProfile.followers =
-                    state.userProfile.followers.filter(
-                        (follower) =>
-                            follower._id !== action.payload.oldFollower._id
-                    );
+            .addCase(unfollowFollowing.fulfilled, (state, action) => {
+                state.userProfile.following = state.userProfile.following.map(
+                    (followingUser) => {
+                        if (
+                            followingUser._id ===
+                            action.payload.unfollowedUser._id
+                        ) {
+                            followingUser.followers =
+                                followingUser.followers.filter(
+                                    (_id) =>
+                                        _id !== action.payload.oldFollower._id
+                                );
+                        }
+                        return followingUser;
+                    }
+                );
+                if (action.payload.oldFollower._id === state.userProfile._id) {
+                    state.userProfile.following =
+                        state.userProfile.following.filter(
+                            (following) =>
+                                following._id !==
+                                action.payload.unfollowedUser._id
+                        );
+                }
             });
     },
 });
@@ -106,6 +161,17 @@ export const followFollower = createAsyncThunk(
     }
 );
 
+export const followFollowing = createAsyncThunk(
+    "users/followFolloweing",
+    async (_id) => {
+        try {
+            return await usersService.follow(_id);
+        } catch (error) {
+            console.error(error);
+        }
+    }
+);
+
 export const unfollow = createAsyncThunk("users/unfollow", async (_id) => {
     try {
         return await usersService.unfollow(_id);
@@ -116,6 +182,17 @@ export const unfollow = createAsyncThunk("users/unfollow", async (_id) => {
 
 export const unfollowFollower = createAsyncThunk(
     "users/unfollowFollower",
+    async (_id) => {
+        try {
+            return await usersService.unfollow(_id);
+        } catch (error) {
+            console.error(error);
+        }
+    }
+);
+
+export const unfollowFollowing = createAsyncThunk(
+    "users/unfollowFollowing",
     async (_id) => {
         try {
             return await usersService.unfollow(_id);

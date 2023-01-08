@@ -1,14 +1,15 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import React, { useEffect } from "react";
 import { BsFillPersonDashFill, BsFillPersonPlusFill } from "react-icons/bs";
 import { IoClose } from "react-icons/io5";
 import { useDispatch, useSelector } from "react-redux";
 import { useLocation, useNavigate, useParams } from "react-router-dom";
 import {
-    follow,
     followFollower,
+    followFollowing,
     getUserProfile,
-    unfollow,
     unfollowFollower,
+    unfollowFollowing,
 } from "../../../features/users/usersSlice";
 import "./ModalFollow.scss";
 
@@ -109,7 +110,7 @@ const ModalFollow = () => {
         );
     });
 
-    const followingList = userProfile?.following.map((follower, i) => {
+    const followingList = userProfile?.following.map((following, i) => {
         return (
             <div
                 key={i}
@@ -118,10 +119,10 @@ const ModalFollow = () => {
                 <div className="flex flex-col items-center justify-center">
                     <img
                         className="w-14 h-14 rounded-full hover:opacity-80 cursor-pointer"
-                        src={"http://localhost:8080/" + follower.user_img}
+                        src={"http://localhost:8080/" + following.user_img}
                         alt="Profile pic"
                         onClick={(e) => {
-                            navigate(`/profile/${follower.username}`);
+                            navigate(`/profile/${following.username}`);
                         }}
                     />
                 </div>
@@ -130,29 +131,31 @@ const ModalFollow = () => {
                         <span
                             className=" text-gray-900 dark:text-white font-bold hover:underline hover:underline-offset-2 cursor-pointer"
                             onClick={(e) => {
-                                navigate(`/profile/${follower.username}`);
+                                navigate(`/profile/${following.username}`);
                             }}
                         >
-                            {follower.firstName + " " + follower.lastName}
+                            {following.firstName + " " + following.lastName}
                         </span>
                         <span
                             className=" text-gray-900 dark:text-gray-400 hover:underline hover:underline-offset-2 cursor-pointer"
                             onClick={(e) => {
-                                navigate(`/profile/${follower.username}`);
+                                navigate(`/profile/${following.username}`);
                             }}
                         >
-                            @{follower.username}
+                            @{following.username}
                         </span>
                         <div className="flex flex-row-reverse items-center flex-1 gap-4 relative">
                             {user &&
-                            follower &&
-                            follower.username !== user.username ? (
-                                alreadyFollowing(user, follower) ? (
+                            following &&
+                            following.username !== user.username ? (
+                                alreadyFollowing(user, following) ? (
                                     <button
                                         type="button"
                                         className="text-gray-900 text-xs bg-white border flex items-center justify-center gap-2 border-gray-300 focus:outline-none hover:bg-gray-100 focus:ring-4 focus:ring-gray-200 font-medium rounded-full px-5 py-2.5 dark:bg-gray-800 dark:text-white dark:border-gray-600 dark:hover:bg-gray-700 dark:hover:border-gray-600 dark:focus:ring-gray-700"
                                         onClick={() =>
-                                            dispatch(unfollow(follower._id))
+                                            dispatch(
+                                                unfollowFollowing(following._id)
+                                            )
                                         }
                                     >
                                         <BsFillPersonDashFill className="text-base" />
@@ -163,7 +166,9 @@ const ModalFollow = () => {
                                         type="button"
                                         className="text-gray-900 text-xs bg-white border flex items-center justify-center gap-2 border-gray-300 focus:outline-none hover:bg-gray-100 focus:ring-4 focus:ring-gray-200 font-medium rounded-full px-5 py-2.5 dark:bg-gray-800 dark:text-white dark:border-gray-600 dark:hover:bg-gray-700 dark:hover:border-gray-600 dark:focus:ring-gray-700"
                                         onClick={() =>
-                                            dispatch(follow(follower._id))
+                                            dispatch(
+                                                followFollowing(following._id)
+                                            )
                                         }
                                     >
                                         <BsFillPersonPlusFill className="text-base" />
@@ -173,7 +178,7 @@ const ModalFollow = () => {
                             ) : null}
                         </div>
                     </div>
-                    <div>{follower.bio}</div>
+                    <div>{following.bio}</div>
                 </div>
             </div>
         );
