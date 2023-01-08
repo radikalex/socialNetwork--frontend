@@ -3,7 +3,9 @@ import React, { useEffect, useState } from "react";
 import { IoSearchSharp } from "react-icons/io5";
 import { useDispatch, useSelector } from "react-redux";
 import { getPostsQuery, reset } from "../../features/posts/postsSlice";
+import { getUsersQuery } from "../../features/users/usersSlice";
 import ExplorePosts from "./ExplorePosts/ExplorePosts";
+import ExploreUsers from "./ExploreUsers/ExploreUsers";
 
 const Explore = () => {
     const { date } = useSelector((state) => state.posts);
@@ -14,6 +16,7 @@ const Explore = () => {
     useEffect(() => {
         if (search !== "") {
             if (searchType === 0) dispatch(getPostsQuery({ search, date }));
+            if (searchType === 1) dispatch(getUsersQuery(search));
         } else {
             dispatch(reset());
         }
@@ -44,6 +47,7 @@ const Explore = () => {
                     }
                     onClick={() => {
                         setSearchType(0);
+                        setSearch("");
                     }}
                 >
                     Search post
@@ -56,6 +60,7 @@ const Explore = () => {
                     }
                     onClick={() => {
                         setSearchType(1);
+                        setSearch("");
                     }}
                 >
                     Search user
@@ -68,7 +73,11 @@ const Explore = () => {
                         <>
                             <ExplorePosts />
                         </>
-                    ) : null
+                    ) : (
+                        <>
+                            <ExploreUsers />
+                        </>
+                    )
                 ) : (
                     <span className="text-xl">
                         Type something to start the search

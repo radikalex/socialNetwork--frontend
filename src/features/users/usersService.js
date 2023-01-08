@@ -2,6 +2,14 @@ import axios from "axios";
 
 const API_URL = "http://localhost:8080";
 
+const getUsersQuery = async (search) => {
+    const res = await axios.get(
+        API_URL + `/users/getUsersQuery?search=${search}`
+    );
+
+    return res.data;
+};
+
 const getUserProfile = async (username) => {
     const res = await axios.get(
         API_URL + `/users/getUserByUsername/${username}`
@@ -59,6 +67,7 @@ const usersService = {
     follow,
     unfollow,
     updateLoggedUser,
+    getUsersQuery,
 };
 
 export default usersService;

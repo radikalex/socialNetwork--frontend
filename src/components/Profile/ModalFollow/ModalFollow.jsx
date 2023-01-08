@@ -11,7 +11,6 @@ import {
     unfollowFollower,
     unfollowFollowing,
 } from "../../../features/users/usersSlice";
-import "./ModalFollow.scss";
 
 const ModalFollow = () => {
     const { userProfile } = useSelector((state) => state.users);

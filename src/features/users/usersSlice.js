@@ -39,6 +39,9 @@ export const usersSlice = createSlice({
             .addCase(getUserProfile.fulfilled, (state, action) => {
                 state.userProfile = action.payload.user;
             })
+            .addCase(getUsersQuery.fulfilled, (state, action) => {
+                state.users = action.payload.users;
+            })
             .addCase(updateLoggedUser.fulfilled, (state, action) => {
                 state.isSuccess = true;
                 state.isError = false;
@@ -58,6 +61,17 @@ export const usersSlice = createSlice({
                     action.payload.newFollower,
                     ...state.userProfile.followers,
                 ];
+            })
+            .addCase(followExplore.fulfilled, (state, action) => {
+                state.users = state.users.map((user) => {
+                    if (user._id === action.payload.followedUser._id) {
+                        user.followers = [
+                            action.payload.newFollower,
+                            ...user.followers,
+                        ];
+                    }
+                    return user;
+                });
             })
             .addCase(followFollower.fulfilled, (state, action) => {
                 state.userProfile.followers = state.userProfile.followers.map(
@@ -100,6 +114,17 @@ export const usersSlice = createSlice({
                         (follower) =>
                             follower._id !== action.payload.oldFollower._id
                     );
+            })
+            .addCase(unfollowExplore.fulfilled, (state, action) => {
+                state.users = state.users.map((user) => {
+                    if (user._id === action.payload.unfollowedUser._id) {
+                        user.followers = user.followers.filter(
+                            (follower) =>
+                                follower._id !== action.payload.oldFollower._id
+                        );
+                    }
+                    return user;
+                });
             })
             .addCase(unfollowFollower.fulfilled, (state, action) => {
                 state.userProfile.followers = state.userProfile.followers.map(
@@ -174,6 +199,17 @@ export const getUserProfile = createAsyncThunk(
     }
 );
 
+export const getUsersQuery = createAsyncThunk(
+    "users/getUsersQuery",
+    async (search) => {
+        try {
+            return await usersService.getUsersQuery(search);
+        } catch (error) {
+            console.error(error);
+        }
+    }
+);
+
 export const follow = createAsyncThunk("users/follow", async (_id) => {
     try {
         return await usersService.follow(_id);
@@ -181,6 +217,17 @@ export const follow = createAsyncThunk("users/follow", async (_id) => {
         console.error(error);
     }
 });
+
+export const followExplore = createAsyncThunk(
+    "users/followExplore",
+    async (_id) => {
+        try {
+            return await usersService.follow(_id);
+        } catch (error) {
+            console.error(error);
+        }
+    }
+);
 
 export const followFollower = createAsyncThunk(
     "users/followFollower",
@@ -211,6 +258,17 @@ export const unfollow = createAsyncThunk("users/unfollow", async (_id) => {
         console.error(error);
     }
 });
+
+export const unfollowExplore = createAsyncThunk(
+    "users/unfollowExplore",
+    async (_id) => {
+        try {
+            return await usersService.unfollow(_id);
+        } catch (error) {
+            console.error(error);
+        }
+    }
+);
 
 export const unfollowFollower = createAsyncThunk(
     "users/unfollowFollower",
