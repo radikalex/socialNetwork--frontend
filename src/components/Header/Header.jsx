@@ -261,7 +261,7 @@ const Header = () => {
                                                 : "w-6 h-6 rounded-full"
                                         }
                                         src={
-                                            "http://localhost:8080/" +
+                                            process.env.REACT_APP_API_URL +
                                             user.user_img
                                         }
                                         alt="Profile pic"

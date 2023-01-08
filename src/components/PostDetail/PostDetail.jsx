@@ -91,7 +91,10 @@ const PostDetail = () => {
                 <div className="w-full flex gap-3 items-center">
                     <img
                         className="w-9 h-9 rounded-full hover:opacity-80 cursor-pointer"
-                        src={"http://localhost:8080/" + comment.userId.user_img}
+                        src={
+                            process.env.REACT_APP_API_URL +
+                            comment.userId.user_img
+                        }
                         alt="Profile pic"
                         onClick={(e) => {
                             navigate(`/profile/${comment.userId.username}`);
@@ -207,7 +210,7 @@ const PostDetail = () => {
                 content={post?.content}
                 urlImage={
                     post?.post_img && post?.post_img !== ""
-                        ? "http://localhost:8080/" + post?.post_img
+                        ? process.env.REACT_APP_API_URL + post?.post_img
                         : ""
                 }
                 showMenuPost={showMenuPost}
@@ -230,7 +233,7 @@ const PostDetail = () => {
                                         <img
                                             className="w-16 h-16 rounded-full hover:opacity-80 cursor-pointer"
                                             src={
-                                                "http://localhost:8080/" +
+                                                process.env.REACT_APP_API_URL +
                                                 post.userId.user_img
                                             }
                                             alt="Profile pic"
@@ -291,7 +294,8 @@ const PostDetail = () => {
                                                 <img
                                                     className="w-auto h-auto rounded max-w-full max-h img-post-detail"
                                                     src={
-                                                        "http://localhost:8080/" +
+                                                        process.env
+                                                            .REACT_APP_API_URL +
                                                         post.post_img
                                                     }
                                                     alt="Post_img"

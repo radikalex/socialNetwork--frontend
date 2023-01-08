@@ -47,7 +47,9 @@ const ProfileContainers = ({ containers }) => {
                 <div className="flex flex-col items-center">
                     <img
                         className="w-12 h-12 rounded-full hover:opacity-80"
-                        src={"http://localhost:8080/" + post.userId.user_img}
+                        src={
+                            process.env.REACT_APP_API_URL + post.userId.user_img
+                        }
                         alt="Profile pic"
                         onClick={(e) => {
                             e.stopPropagation();
@@ -85,7 +87,7 @@ const ProfileContainers = ({ containers }) => {
                                     setContent(post.content);
                                     SetUrlImage(
                                         post.post_img && post.post_img !== ""
-                                            ? "http://localhost:8080/" +
+                                            ? process.env.REACT_APP_API_URL +
                                                   post.post_img
                                             : ""
                                     );
@@ -112,7 +114,10 @@ const ProfileContainers = ({ containers }) => {
                             <img
                                 loading="lazy"
                                 className="w-auto h-auto rounded max-w-full max-h img-post"
-                                src={"http://localhost:8080/" + post.post_img}
+                                src={
+                                    process.env.REACT_APP_API_URL +
+                                    post.post_img
+                                }
                                 alt="Post_img"
                             />
                         </div>

@@ -30,7 +30,7 @@ const ExploreUsers = () => {
                 <div className="flex flex-col items-center justify-center">
                     <img
                         className="w-14 h-14 rounded-full hover:opacity-80 cursor-pointer"
-                        src={"http://localhost:8080/" + userItem.user_img}
+                        src={process.env.REACT_APP_API_URL + userItem.user_img}
                         alt="Profile pic"
                         onClick={(e) => {
                             navigate(`/profile/${userItem.username}`);
