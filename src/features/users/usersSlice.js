@@ -20,18 +20,38 @@ export const usersSlice = createSlice({
     initialState,
     reducers: {
         resetUsers: (state) => {
-            state.userProfile = false;
+            state.isError = false;
             state.isSuccess = false;
             state.isLoading = false;
             state.errorMessage = "";
             state.users = [];
             state.userProfile = null;
         },
+        resetUsersFlags: (state) => {
+            state.isError = false;
+            state.isSuccess = false;
+            state.isLoading = false;
+            state.errorMessage = "";
+        },
     },
     extraReducers: (builder) => {
         builder
             .addCase(getUserProfile.fulfilled, (state, action) => {
                 state.userProfile = action.payload.user;
+            })
+            .addCase(updateLoggedUser.fulfilled, (state, action) => {
+                state.isSuccess = true;
+                state.isError = false;
+                state.isLoading = false;
+                state.userProfile = action.payload.user;
+            })
+            .addCase(updateLoggedUser.pending, (state) => {
+                state.isLoading = true;
+            })
+            .addCase(updateLoggedUser.rejected, (state, action) => {
+                state.isError = true;
+                state.isLoading = false;
+                state.errorMessage = action.payload.errors[0].msg;
             })
             .addCase(follow.fulfilled, (state, action) => {
                 state.userProfile.followers = [
@@ -131,6 +151,18 @@ export const usersSlice = createSlice({
     },
 });
 
+export const updateLoggedUser = createAsyncThunk(
+    "users/updateLoggedUser",
+    async (data, thunkAPI) => {
+        try {
+            return await usersService.updateLoggedUser(data);
+        } catch (error) {
+            console.error(error);
+            return thunkAPI.rejectWithValue(error.response.data);
+        }
+    }
+);
+
 export const getUserProfile = createAsyncThunk(
     "users/getUserProfile",
     async (data) => {
@@ -202,6 +234,6 @@ export const unfollowFollowing = createAsyncThunk(
     }
 );
 
-export const { resetUsers } = usersSlice.actions;
+export const { resetUsers, resetUsersFlags } = usersSlice.actions;
 
 export default usersSlice.reducer;

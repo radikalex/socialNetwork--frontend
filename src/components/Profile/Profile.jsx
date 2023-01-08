@@ -12,11 +12,13 @@ import {
     getUserProfile,
     unfollow,
 } from "../../features/users/usersSlice";
+import ModalUpdateProfile from "./ModalUpdateProfile/ModalUpdateProfile";
 import "./Profile.scss";
 
 const Profile = () => {
     const { username } = useParams();
     const [reseted, setReseted] = useState(false);
+    const [showModalUpdateProfile, setShowModalUpdateProfile] = useState(false);
     const { userProfile } = useSelector((state) => state.users);
     const { user } = useSelector((state) => state.auth);
     const dispatch = useDispatch();
@@ -50,6 +52,10 @@ const Profile = () => {
 
     return (
         <>
+            <ModalUpdateProfile
+                showModalUpdateProfile={showModalUpdateProfile}
+                setShowModalUpdateProfile={setShowModalUpdateProfile}
+            />
             <div className="flex-1 flex flex-col items-center dark:text-white">
                 <div className="w-3/5 bg-gray-800 flex p-4 rounded-b-lg">
                     <div className="flex justify-center items-center p-10">
@@ -113,6 +119,9 @@ const Profile = () => {
                                         <button
                                             type="button"
                                             className="text-gray-900 bg-white border flex items-center justify-center gap-2 border-gray-300 focus:outline-none hover:bg-gray-100 focus:ring-4 focus:ring-gray-200 font-medium rounded-full text-sm px-5 py-2.5 dark:bg-gray-800 dark:text-white dark:border-gray-600 dark:hover:bg-gray-700 dark:hover:border-gray-600 dark:focus:ring-gray-700"
+                                            onClick={() =>
+                                                setShowModalUpdateProfile(true)
+                                            }
                                         >
                                             <FaPencilAlt />
                                             Edit my profile

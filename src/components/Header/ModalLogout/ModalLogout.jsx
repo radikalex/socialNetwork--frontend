@@ -2,12 +2,14 @@
 import React, { useEffect } from "react";
 import { IoClose } from "react-icons/io5";
 import { useDispatch, useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
 import { logout } from "../../../features/auth/authSlice";
 import { reset } from "../../../features/posts/postsSlice";
 
 const ModalLogout = ({ showModalLogout, setShowModalLogout }) => {
     const { token } = useSelector((state) => state.auth);
     const dispatch = useDispatch();
+    const navigate = useNavigate();
 
     const handleClose = () => {
         setShowModalLogout(false);
@@ -17,6 +19,7 @@ const ModalLogout = ({ showModalLogout, setShowModalLogout }) => {
         if (!token) {
             dispatch(reset());
             setShowModalLogout(false);
+            navigate("/login");
         }
     }, [token]);
 

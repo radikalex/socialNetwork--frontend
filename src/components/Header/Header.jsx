@@ -57,7 +57,7 @@ const Header = () => {
             >
                 <div
                     className={
-                        "overflow-y-auto py-4 px-3 h-screen bg-gray-50 rounded dark:bg-gray-800 flex flex-col"
+                        "overflow-y-auto overflow-x-hidden py-4 px-3 h-screen bg-gray-50 rounded dark:bg-gray-800 flex flex-col"
                     }
                 >
                     <div
