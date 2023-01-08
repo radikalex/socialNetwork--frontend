@@ -8,6 +8,7 @@ import Header from "./components/Header/Header";
 import Login from "./components/Login/Login";
 import PostDetail from "./components/PostDetail/PostDetail";
 import Posts from "./components/Posts/Posts";
+import ModalFollow from "./components/Profile/ModalFollow/ModalFollow";
 import Profile from "./components/Profile/Profile";
 import Register from "./components/Register/Register";
 import { getAllPosts, getPosts } from "./features/posts/postsSlice";
@@ -46,10 +47,10 @@ function App() {
                         <Route path="/login" element={<Login />} />
                         <Route path="/register" element={<Register />} />
                         <Route path="/post/:_id" element={<PostDetail />} />
-                        <Route
-                            path="/profile/:username"
-                            element={<Profile />}
-                        />
+                        <Route path="/profile/:username" element={<Profile />}>
+                            <Route path="followers" element={<ModalFollow />} />
+                            <Route path="following" element={<ModalFollow />} />
+                        </Route>
                     </Routes>
                     <AddPost />
                 </main>

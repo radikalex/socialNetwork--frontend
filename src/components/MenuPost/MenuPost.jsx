@@ -1,7 +1,7 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import { Spinner } from "flowbite-react";
 import React, { useEffect, useState } from "react";
-import { BsFilePost, BsFillPersonPlusFill } from "react-icons/bs";
+import { BsFilePost } from "react-icons/bs";
 import { FaPencilAlt } from "react-icons/fa";
 import { HiOutlineLink } from "react-icons/hi2";
 import { ImBlocked } from "react-icons/im";
@@ -61,10 +61,6 @@ const MenuPost = ({
                             <div className="p-4 flex justify-center items-center gap-2 dark:hover:bg-gray-800 cursor-pointer rounded-t-lg text-yellow-400">
                                 <MdReport className="text-2xl" />
                                 Report this post
-                            </div>
-                            <div className="p-4 flex justify-center items-center gap-2 dark:hover:bg-gray-800 cursor-pointer">
-                                <BsFillPersonPlusFill className="text-xl" />
-                                Follow @{username}
                             </div>
                             <div className="p-4 flex justify-center items-center gap-2 dark:hover:bg-gray-800 cursor-pointer">
                                 <ImBlocked />
