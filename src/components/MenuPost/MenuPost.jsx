@@ -51,23 +51,23 @@ const MenuPost = ({
         >
             {!deletePostFlag && !updatePostFlag ? (
                 <div
-                    className="dark:bg-gray-900 flex flex-col w-1/4 dark:text-white rounded-lg shadow dark:shadow-white"
+                    className="dark:bg-gray-900 flex flex-col bg-gray-200 w-1/4 dark:text-white rounded-lg shadow dark:shadow-white"
                     onMouseDown={(e) => {
                         e.stopPropagation();
                     }}
                 >
                     {!user || user.username !== username ? (
                         <>
-                            <div className="p-4 flex justify-center items-center gap-2 dark:hover:bg-gray-800 cursor-pointer rounded-t-lg text-yellow-400">
+                            <div className="p-4 flex justify-center items-center gap-2 dark:hover:bg-gray-800 hover:bg-gray-300 cursor-pointer rounded-t-lg text-yellow-400">
                                 <MdReport className="text-2xl" />
                                 Report this post
                             </div>
-                            <div className="p-4 flex justify-center items-center gap-2 dark:hover:bg-gray-800 cursor-pointer">
+                            <div className="p-4 flex justify-center items-center gap-2 dark:hover:bg-gray-800 hover:bg-gray-300  cursor-pointer">
                                 <ImBlocked />
                                 Block @{username}
                             </div>
                             <div
-                                className="p-4 flex justify-center items-center gap-2 dark:hover:bg-gray-800 cursor-pointer"
+                                className="p-4 flex justify-center items-center gap-2 dark:hover:bg-gray-800 hover:bg-gray-300  cursor-pointer"
                                 onClick={() =>
                                     navigator.clipboard.writeText(
                                         `http://localhost:3000/post/${postId}`
@@ -78,14 +78,14 @@ const MenuPost = ({
                                 Copy link
                             </div>
                             <div
-                                className="p-4 flex justify-center items-center gap-2 dark:hover:bg-gray-800 cursor-pointer"
+                                className="p-4 flex justify-center items-center gap-2 dark:hover:bg-gray-800 hover:bg-gray-300  cursor-pointer"
                                 onClick={() => navigate(`/post/${postId}`)}
                             >
                                 <BsFilePost />
                                 Go to post
                             </div>
                             <div
-                                className="p-4 flex justify-center items-center gap-2 dark:hover:bg-gray-800 cursor-pointer rounded-b-lg"
+                                className="p-4 flex justify-center items-center gap-2 dark:hover:bg-gray-800 hover:bg-gray-300  cursor-pointer rounded-b-lg"
                                 onClick={() => setShowMenuPost(false)}
                             >
                                 Cancel
@@ -94,20 +94,20 @@ const MenuPost = ({
                     ) : (
                         <>
                             <div
-                                className="p-4 flex justify-center items-center gap-2 dark:hover:bg-gray-800 cursor-pointer rounded-t-lg text-red-500"
+                                className="p-4 flex justify-center items-center gap-2 dark:hover:bg-gray-800 hover:bg-gray-300  cursor-pointer rounded-t-lg text-red-500"
                                 onClick={() => setDeletePostFlag(true)}
                             >
                                 <IoTrash /> Delete my post
                             </div>
                             <div
-                                className="p-4 flex justify-center items-center gap-2 dark:hover:bg-gray-800 cursor-pointer text-green-500"
+                                className="p-4 flex justify-center items-center gap-2 dark:hover:bg-gray-800 hover:bg-gray-300  cursor-pointer text-green-500"
                                 onClick={() => setUpdatePostFlag(true)}
                             >
                                 <FaPencilAlt />
                                 Edit my post
                             </div>
                             <div
-                                className="p-4 flex justify-center items-center gap-2 dark:hover:bg-gray-800 cursor-pointer"
+                                className="p-4 flex justify-center items-center gap-2 dark:hover:bg-gray-800 hover:bg-gray-300  cursor-pointer"
                                 onClick={() =>
                                     navigator.clipboard.writeText(
                                         `http://localhost:3000/post/${postId}`
@@ -118,18 +118,18 @@ const MenuPost = ({
                                 Copy link
                             </div>
                             <div
-                                className="p-4 flex justify-center items-center gap-2 dark:hover:bg-gray-800 cursor-pointer"
+                                className="p-4 flex justify-center items-center gap-2 dark:hover:bg-gray-800 hover:bg-gray-300  cursor-pointer"
                                 onClick={() => navigate(`/post/${postId}`)}
                             >
                                 <BsFilePost />
                                 Go to post
                             </div>
-                            <div className="p-4 flex justify-center items-center gap-2 dark:hover:bg-gray-800 cursor-pointer">
+                            <div className="p-4 flex justify-center items-center gap-2 dark:hover:bg-gray-800 hover:bg-gray-300  cursor-pointer">
                                 <IoStatsChart />
                                 Show statistics of this post
                             </div>
                             <div
-                                className="p-4 flex justify-center items-center gap-2 dark:hover:bg-gray-800 cursor-pointer rounded-b-lg"
+                                className="p-4 flex justify-center items-center gap-2 dark:hover:bg-gray-800 hover:bg-gray-300  cursor-pointer rounded-b-lg"
                                 onClick={() => setShowMenuPost(false)}
                             >
                                 Cancel
@@ -139,7 +139,7 @@ const MenuPost = ({
                 </div>
             ) : deletePostFlag ? (
                 <div
-                    className="dark:bg-gray-900 flex flex-col gap-2 w-1/4 p-6 dark:text-white rounded-lg shadow dark:shadow-white"
+                    className="dark:bg-gray-900 bg-gray-200 flex flex-col gap-2 w-1/4 p-6 dark:text-white rounded-lg shadow dark:shadow-white"
                     onMouseDown={(e) => {
                         e.stopPropagation();
                     }}

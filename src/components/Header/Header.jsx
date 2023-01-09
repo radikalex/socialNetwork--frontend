@@ -57,7 +57,7 @@ const Header = () => {
             >
                 <div
                     className={
-                        "overflow-y-auto overflow-x-hidden py-4 px-3 h-screen bg-gray-50 rounded dark:bg-gray-800 flex flex-col"
+                        "overflow-y-auto overflow-x-hidden py-4 px-3 h-screen bg-gray-300 rounded dark:bg-gray-800 flex flex-col"
                     }
                 >
                     <div
@@ -85,7 +85,7 @@ const Header = () => {
                         />
                         {open ? (
                             <span className="self-center text-xl font-semibold whitespace-nowrap dark:text-white">
-                                Lyru
+                                Nyrma
                             </span>
                         ) : null}
                     </a>
@@ -118,10 +118,7 @@ const Header = () => {
                         </li>
                         {token ? (
                             <li>
-                                <Link
-                                    to="/notifications"
-                                    className="flex items-center p-2 relative text-base font-normal text-gray-900 rounded-lg dark:text-white hover:bg-gray-200 dark:hover:bg-gray-700"
-                                >
+                                <Link className="flex items-center p-2 relative text-base font-normal text-gray-900 rounded-lg dark:text-white hover:bg-gray-200 dark:hover:bg-gray-700">
                                     <HiBell />
                                     {open ? (
                                         <>
@@ -142,10 +139,7 @@ const Header = () => {
                         ) : null}
                         {token ? (
                             <li>
-                                <Link
-                                    to="/messages"
-                                    className="flex items-center p-2 text-base font-normal text-gray-900 rounded-lg dark:text-white hover:bg-gray-200 dark:hover:bg-gray-700"
-                                >
+                                <Link className="flex items-center p-2 text-base font-normal text-gray-900 rounded-lg dark:text-white hover:bg-gray-200 dark:hover:bg-gray-700">
                                     <HiEnvelope />
                                     {open ? (
                                         <span className="flex-1 ml-3 whitespace-nowrap">
@@ -237,10 +231,7 @@ const Header = () => {
                             </li>
                         ) : null}
                         <li>
-                            <Link
-                                to="/settings"
-                                className="flex items-center p-2 text-base font-normal text-gray-900 rounded-lg dark:text-white hover:bg-gray-200 dark:hover:bg-gray-700"
-                            >
+                            <Link className="flex items-center p-2 text-base font-normal text-gray-900 rounded-lg dark:text-white hover:bg-gray-200 dark:hover:bg-gray-700">
                                 <IoSettingsSharp />
                                 {open ? (
                                     <span className="flex-1 ml-3 whitespace-nowrap">

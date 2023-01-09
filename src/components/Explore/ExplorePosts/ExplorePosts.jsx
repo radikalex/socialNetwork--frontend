@@ -26,7 +26,7 @@ const ExplorePosts = () => {
     const postsList = posts?.map((post, idx) => {
         return (
             <div
-                className="flex gap-2 bg-gray-50 rounded-lg dark:bg-gray-800 w-3/4 mt-4 p-4 cursor-pointer hover:bg-gray-300 dark:hover:bg-gray-780"
+                className="flex gap-2 bg-gray-200 rounded-lg dark:bg-gray-800 w-3/4 mt-4 p-4 cursor-pointer hover:bg-gray-300 dark:hover:bg-gray-780"
                 onClick={() => navigate(`/post/${post._id}`)}
                 key={idx}
             >

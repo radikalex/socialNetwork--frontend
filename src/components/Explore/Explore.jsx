@@ -24,7 +24,7 @@ const Explore = () => {
 
     return (
         <div className="flex-1 flex flex-col gap-4 items-center dark:text-white">
-            <div className="w-3/5 bg-gray-800 flex flex-col gap-4 p-4 rounded-b-lg">
+            <div className="w-3/5 dark:bg-gray-800 bg-gray-200 flex flex-col gap-4 p-4 rounded-b-lg">
                 <span className="text-center mt-2 text-3xl">Explore</span>
                 <div className="relative flex items-center">
                     <input
@@ -38,11 +38,11 @@ const Explore = () => {
                     <IoSearchSharp className="absolute text-2xl right-0 m-4" />
                 </div>
             </div>
-            <div className="w-3/5 bg-gray-800 flex rounded-lg">
+            <div className="w-3/5 dark:bg-gray-800 bg-gray-200 flex rounded-lg">
                 <div
                     className={
                         searchType === 0
-                            ? "flex-1 p-4 rounded-l-lg cursor-pointer flex justify-center items-center bg-slate-600"
+                            ? "flex-1 p-4 rounded-l-lg cursor-pointer flex justify-center items-center dark:bg-slate-600 bg-gray-300"
                             : "flex-1 p-4 rounded-l-lg cursor-pointer flex justify-center items-center"
                     }
                     onClick={() => {
@@ -55,7 +55,7 @@ const Explore = () => {
                 <div
                     className={
                         searchType === 1
-                            ? "flex-1 p-4 rounded-r-lg flex justify-center items-center cursor-pointer bg-slate-600"
+                            ? "flex-1 p-4 rounded-r-lg flex justify-center items-center cursor-pointer dark:bg-slate-600 bg-gray-300"
                             : "flex-1 p-4 rounded-r-lg flex justify-center items-center cursor-pointer"
                     }
                     onClick={() => {

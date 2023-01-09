@@ -86,7 +86,7 @@ const PostDetail = () => {
         return (
             <div
                 key={idx}
-                className="w-full p-2 rounded-lg dark:bg-gray-600 flex flex-col gap-1"
+                className="w-full p-2 rounded-lg bg-gray-300 dark:bg-gray-600 flex flex-col gap-1"
             >
                 <div className="w-full flex gap-3 items-center">
                     <img
@@ -226,10 +226,10 @@ const PostDetail = () => {
             />
             {!post ? null : (
                 <div className="flex-1 flex justify-center items-center">
-                    <div className="flex w-8/12 dark:bg-gray-700 rounded-lg dark:text-white p-4 gap-2 container-post-detail">
+                    <div className="flex w-8/12 dark:bg-gray-700 bg-gray-300 rounded-lg dark:text-white p-4 gap-2 container-post-detail">
                         <div className="flex-2 flex flex-col">
                             <div className="w-full flex flex-col justify-center items-center gap-2 h-full">
-                                <div className="w-full max-h-full flex flex-col gap-2 p-4 rounded-lg dark:bg-gray-800">
+                                <div className="w-full max-h-full flex flex-col gap-2 p-4 rounded-lg dark:bg-gray-800 bg-gray-200">
                                     <div className="w-full flex gap-3 items-center">
                                         <img
                                             className="w-16 h-16 rounded-full hover:opacity-80 cursor-pointer"
@@ -358,8 +358,8 @@ const PostDetail = () => {
                                 </div>
                             </div>
                         </div>
-                        <div className="comments-container flex flex-col items-center rounded-lg dark:bg-gray-800">
-                            <div className="dark:bg-gray-900 w-full rounded-t-lg flex justify-center p-3">
+                        <div className="comments-container flex flex-col items-center rounded-lg dark:bg-gray-800 bg-gray-200">
+                            <div className="dark:bg-gray-900 w-full rounded-t-lg flex justify-center p-3 bg-gray-400">
                                 <span className="text-xl">Comments</span>
                             </div>
                             {comments.length ? (
@@ -370,11 +370,11 @@ const PostDetail = () => {
                                     {commentsList}
                                 </div>
                             ) : (
-                                <div className="p-4 flex-1 text-slate-300">
+                                <div className="p-4 flex-1 dark:text-slate-300 text-gray-900">
                                     <span>No comments yet...</span>
                                 </div>
                             )}
-                            <div className="dark:bg-gray-900 w-full rounded-b-lg flex justify-center p-3">
+                            <div className="dark:bg-gray-900 w-full rounded-b-lg flex justify-center p-3 bg-gray-400">
                                 <button
                                     className="text-white bg-gradient-to-r from-blue-500 via-blue-600 to-blue-700 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-blue-300 dark:focus:ring-blue-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center"
                                     onClick={() => {

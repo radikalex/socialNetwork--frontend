@@ -39,7 +39,7 @@ const ModalFollow = () => {
         return (
             <div
                 key={i}
-                className="flex gap-4 rounded-lg dark:bg-gray-800 px-4 py-2"
+                className="flex gap-4 rounded-lg dark:bg-gray-800 bg-gray-200 px-4 py-2"
             >
                 <div className="flex flex-col items-center justify-center">
                     <img
@@ -117,7 +117,7 @@ const ModalFollow = () => {
         return (
             <div
                 key={i}
-                className="flex gap-4 rounded-lg dark:bg-gray-800 px-4 py-2"
+                className="flex gap-4 rounded-lg dark:bg-gray-800 bg-gray-200 px-4 py-2"
             >
                 <div className="flex flex-col items-center justify-center">
                     <img
