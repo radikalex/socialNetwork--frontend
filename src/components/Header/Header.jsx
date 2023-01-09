@@ -75,13 +75,13 @@ const Header = () => {
                         </span>
                     </div>
                     <a
-                        href="https://flowbite.com/"
+                        href=""
                         className="flex items-center mb-5 mt-10 justify-center gap-3"
                     >
                         <img
-                            src="https://flowbite.com/docs/images/logo.svg"
-                            className="h-6 sm:h-7"
-                            alt="Flowbite Logo"
+                            src={require("../../assets/logo.png")}
+                            className={open ? "h-12" : "h-7"}
+                            alt="Nyrma Logo"
                         />
                         {open ? (
                             <span className="self-center text-xl font-semibold whitespace-nowrap dark:text-white">
