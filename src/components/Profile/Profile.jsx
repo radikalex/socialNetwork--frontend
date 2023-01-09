@@ -13,7 +13,6 @@ import {
     unfollow,
 } from "../../features/users/usersSlice";
 import ModalUpdateProfile from "./ModalUpdateProfile/ModalUpdateProfile";
-import "./Profile.scss";
 import ProfileContainers from "./ProfileContainers/ProfileContainers";
 
 const Profile = () => {

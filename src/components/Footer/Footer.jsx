@@ -11,8 +11,8 @@ const Footer = () => {
     };
 
     return (
-        <footer className="p-4 bg-white sm:p-6 dark:bg-gray-900">
-            <div className="md:flex md:justify-between lg:px-40">
+        <footer className="p-4 bg-white sm:p-6 dark:bg-gray-900 md:px-20 sm:px-30 px-30">
+            <div className="md:flex md:justify-between justify-center lg:px-40 md:px-30 ">
                 <div className="mb-6 md:mb-0 flex flex-col justify-center gap-4">
                     <a
                         href="https://flowbite.com/"

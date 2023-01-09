@@ -30,7 +30,7 @@ const ProfileContainers = ({ containers }) => {
             dispatch(getPostsCreatedByUser({ _id: userProfile._id, date }));
         else if (containers === 1)
             dispatch(getPostsLikedByUser({ _id: userProfile._id }));
-    }, [containers]);
+    }, [containers, userProfile]);
 
     const postLiked = (post) => {
         if (!user || !posts) return false;

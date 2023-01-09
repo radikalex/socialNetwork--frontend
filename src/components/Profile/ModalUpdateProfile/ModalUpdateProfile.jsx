@@ -95,9 +95,7 @@ const ModalUpdateProfile = ({
                                         src={
                                             file
                                                 ? URL.createObjectURL(file)
-                                                : process.env
-                                                      .REACT_APP_API_URL +
-                                                  userProfile.user_img
+                                                : `${process.env.REACT_APP_API_URL}/${userProfile.user_img}`
                                         }
                                         alt="Profile pic"
                                     />
