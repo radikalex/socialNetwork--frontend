@@ -90,7 +90,16 @@ const ExploreUsers = () => {
                                         Follow
                                     </button>
                                 )
-                            ) : null}
+                            ) : (
+                                <button
+                                    type="button"
+                                    className="text-gray-900 text-xs bg-white border flex items-center justify-center gap-2 border-gray-300 focus:outline-none hover:bg-gray-100 focus:ring-4 focus:ring-gray-200 font-medium rounded-full px-5 py-2.5 dark:bg-gray-800 dark:text-white dark:border-gray-600 dark:hover:bg-gray-700 dark:hover:border-gray-600 dark:focus:ring-gray-700"
+                                    onClick={() => dispatch(navigate("/login"))}
+                                >
+                                    <BsFillPersonPlusFill className="text-base" />
+                                    Follow
+                                </button>
+                            )}
                         </div>
                     </div>
                     <div>{userItem.bio}</div>
