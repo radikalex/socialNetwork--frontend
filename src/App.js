@@ -13,6 +13,7 @@ import ModalFollow from "./components/Profile/ModalFollow/ModalFollow";
 import Profile from "./components/Profile/Profile";
 import Register from "./components/Register/Register";
 import { getAllPosts, getPosts } from "./features/posts/postsSlice";
+import NotLoggedZone from "./guards/NotLoggedZone";
 
 function App() {
     const { page, date } = useSelector((state) => state.posts);
@@ -47,8 +48,22 @@ function App() {
             <main>
                 <Routes>
                     <Route path="/" element={<Posts />} />
-                    <Route path="/login" element={<Login />} />
-                    <Route path="/register" element={<Register />} />
+                    <Route
+                        path="/login"
+                        element={
+                            <NotLoggedZone>
+                                <Login />
+                            </NotLoggedZone>
+                        }
+                    />
+                    <Route
+                        path="/register"
+                        element={
+                            <NotLoggedZone>
+                                <Register />
+                            </NotLoggedZone>
+                        }
+                    />
                     <Route path="/explore" element={<Explore />} />
                     <Route path="/post/:_id" element={<PostDetail />} />
                     <Route path="/profile/:username" element={<Profile />}>
